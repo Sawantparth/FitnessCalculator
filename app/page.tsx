@@ -72,7 +72,7 @@ const STEP_COOLDOWN = 650;
 export default function HomePage() {
   const currentRef = useRef(0);
   const isAnimatingRef = useRef(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const panelsRef = useRef<HTMLDivElement[]>([]);
   const dotsRef = useRef<HTMLButtonElement[]>([]);
   const n = CATEGORIES.length;
