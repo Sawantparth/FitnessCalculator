@@ -2,22 +2,36 @@ import { describe, it, expect } from "vitest";
 import { ckdEpi, mdrd4, gfrCategory, gfrCalculatorFormula } from "@/lib/formulas/gfr-calculator";
 
 describe("GFR — pure functions", () => {
-  it("CKD-EPI: male, 30, Scr=1.0, non-Black → ~99 mL/min", () => {
+  // Reference: CKD-EPI 2009 (Levey et al., Annals of Internal Medicine)
+  it("CKD-EPI: male, 30, Scr=1.0, non-Black → 100.6 → rounded 101", () => {
     const r = ckdEpi(1.0, 30, true, false);
-    expect(r).toBeGreaterThan(90);
-    expect(r).toBeLessThan(110);
+    expect(r).toBeCloseTo(100.55, 0);
   });
 
-  it("CKD-EPI: female, 50, Scr=1.0, non-Black → ~77 mL/min", () => {
+  it("CKD-EPI: female, 50, Scr=1.0, non-Black → 65.7 → rounded 66", () => {
     const r = ckdEpi(1.0, 50, false, false);
-    expect(r).toBeGreaterThan(65);
-    expect(r).toBeLessThan(85);
+    expect(r).toBeCloseTo(65.65, 0);
   });
 
-  it("MDRD: male, 30, Scr=1.0, non-Black → ~88 mL/min", () => {
+  it("CKD-EPI: male, 30, Scr=1.0, Black → 116.5 → rounded 117", () => {
+    const r = ckdEpi(1.0, 30, true, true);
+    expect(r).toBeCloseTo(116.54, 0);
+  });
+
+  // Reference: MDRD 1999 (Levey et al.)
+  it("MDRD: male, 30, Scr=1.0, non-Black → 87.7 → rounded 88", () => {
     const r = mdrd4(1.0, 30, true, false);
-    expect(r).toBeGreaterThan(80);
-    expect(r).toBeLessThan(95);
+    expect(r).toBeCloseTo(87.74, 0);
+  });
+
+  it("MDRD: female, 50, Scr=1.0, non-Black → 58.7 → rounded 59", () => {
+    const r = mdrd4(1.0, 50, false, false);
+    expect(r).toBeCloseTo(58.65, 0);
+  });
+
+  it("MDRD: male, 30, Scr=1.0, Black → 106.3 → rounded 106", () => {
+    const r = mdrd4(1.0, 30, true, true);
+    expect(r).toBeCloseTo(106.34, 0);
   });
 
   it("gfrCategory: 95 → G1", () => {
@@ -30,15 +44,21 @@ describe("GFR — pure functions", () => {
 });
 
 describe("GFR — ICalculatorFormula", () => {
-  it("returns CKD-EPI as primary", () => {
+  it("returns CKD-EPI 101 as primary for male 30 Scr=1.0", () => {
     const r = gfrCalculatorFormula.calculate({ serumCreatinine: 1.0, age: 30, gender: 0, isBlack: 0 });
     expect(r.primary.label).toContain("CKD-EPI");
-    expect(r.primary.value).toBeGreaterThan(90);
+    expect(r.primary.value).toBe(101);
   });
 
-  it("includes MDRD in secondary", () => {
+  it("includes MDRD 88 in secondary", () => {
     const r = gfrCalculatorFormula.calculate({ serumCreatinine: 1.0, age: 30, gender: 0, isBlack: 0 });
-    const labels = r.secondary.map((s) => s.label);
-    expect(labels).toContain("eGFR (MDRD)");
+    const mdrd = r.secondary.find((s) => s.label === "eGFR (MDRD)");
+    expect(mdrd).toBeTruthy();
+    expect(mdrd!.value).toBe(88);
+  });
+
+  it("CKD-EPI female 50 Scr=1.0 returns 66", () => {
+    const r = gfrCalculatorFormula.calculate({ serumCreatinine: 1.0, age: 50, gender: 1, isBlack: 0 });
+    expect(r.primary.value).toBe(66);
   });
 });
