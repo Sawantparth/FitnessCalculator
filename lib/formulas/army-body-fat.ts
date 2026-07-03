@@ -1,0 +1,67 @@
+import { round } from "@/lib/core/precision";
+import { requireNumbers } from "@/lib/core/validation";
+import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
+
+export function armyBodyFatMen(abdomenIn: number, neckIn: number, heightIn: number): number {
+  return (
+    86.01 * Math.log10(abdomenIn - neckIn) -
+    70.041 * Math.log10(heightIn) +
+    36.76
+  );
+}
+
+export function armyBodyFatWomen(
+  waistIn: number,
+  hipIn: number,
+  neckIn: number,
+  heightIn: number,
+): number {
+  return (
+    163.205 * Math.log10(waistIn + hipIn - neckIn) -
+    97.684 * Math.log10(heightIn) -
+    78.387
+  );
+}
+
+export const armyBodyFatFormula: ICalculatorFormula = {
+  id: "army-body-fat",
+  name: "Army Body Fat Calculator",
+  description:
+    "Estimates body fat percentage using the US Army AR 600-9 circumference method.",
+
+  validate(inputs) {
+    const issues = requireNumbers(inputs, ["heightIn", "neckIn", "gender"]);
+    const gender = Number(inputs.gender);
+    if (gender === 0) {
+      issues.push(...requireNumbers(inputs, ["abdomenIn"]));
+    } else {
+      issues.push(...requireNumbers(inputs, ["waistIn", "hipIn"]));
+    }
+    return { valid: issues.length === 0, issues };
+  },
+
+  calculate(inputs) {
+    const isMale = inputs.gender === 0;
+    const bf = isMale
+      ? armyBodyFatMen(inputs.abdomenIn, inputs.neckIn, inputs.heightIn)
+      : armyBodyFatWomen(inputs.waistIn, inputs.hipIn, inputs.neckIn, inputs.heightIn);
+
+    return {
+      primary: {
+        label: "Body fat (Army method)",
+        value: round(bf, "percentage"),
+        unit: "%",
+      },
+      secondary: [],
+      interpretation:
+        "This result uses the US Army circumference method (AR 600-9). It indicates an estimated body fat percentage. Discuss these results with your healthcare provider.",
+      limitations: [
+        "Designed for US Army personnel screening purposes.",
+        "Accuracy may vary across ethnicities, ages, and fitness levels.",
+        "Circumference measurements require standardized technique.",
+        "Does not account for age-related body composition changes.",
+      ],
+      sourceStandard: "US Army Regulation 600-9 (Department of Defense)",
+    };
+  },
+};

@@ -1,0 +1,54 @@
+import { round } from "@/lib/core/precision";
+import { requireNumbers } from "@/lib/core/validation";
+import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
+
+export function mosteller(heightCm: number, weightKg: number): number {
+  return Math.sqrt((heightCm * weightKg) / 3600);
+}
+
+export function duBois(heightCm: number, weightKg: number): number {
+  return 0.007184 * Math.pow(weightKg, 0.425) * Math.pow(heightCm, 0.725);
+}
+
+export const bodySurfaceAreaFormula: ICalculatorFormula = {
+  id: "body-surface-area",
+  name: "Body Surface Area Calculator",
+  description: "Estimates body surface area (BSA) using Mosteller and Du Bois formulas — commonly used for medication dosing and physiological assessments.",
+
+  validate(inputs) {
+    return { valid: true, issues: requireNumbers(inputs, ["heightCm", "weightKg"]) };
+  },
+
+  calculate(inputs) {
+    const h = inputs.heightCm;
+    const w = inputs.weightKg;
+    const most = mosteller(h, w);
+    const dub = duBois(h, w);
+
+    return {
+      primary: {
+        label: "Body surface area (Mosteller)",
+        value: round(most, "generic", 3),
+        unit: "m²",
+      },
+      secondary: [
+        { label: "Body surface area (Du Bois)", value: round(dub, "generic", 3), unit: "m²" },
+        { label: "Average of both methods", value: round((most + dub) / 2, "generic", 3), unit: "m²" },
+        { label: "Height", value: round(h, "weight", 0), unit: "cm" },
+        { label: "Weight", value: round(w, "weight", 1), unit: "kg" },
+        { label: "BMI", value: round(w / ((h / 100) ** 2), "weight", 1), unit: "kg/m²" },
+      ],
+      interpretation:
+        `Your estimated BSA is ${round(most, "generic", 2)} m² (Mosteller) or ${round(dub, "generic", 2)} m² (Du Bois). ` +
+        `BSA is used in chemotherapy dosing, cardiac index calculations, and renal function assessment. ` +
+        `Discuss these results with your healthcare provider.`,
+      limitations: [
+        "BSA formulas provide estimates; actual BSA varies with body composition.",
+        "Du Bois formula may overestimate in obese individuals.",
+        "Mosteller formula is simpler and widely preferred in clinical practice.",
+        "BSA-based dosing should be verified by a qualified healthcare professional.",
+      ],
+      sourceStandard: "Mosteller (1987); Du Bois & Du Bois (1916); standard clinical BSA estimation",
+    };
+  },
+};
