@@ -51,6 +51,10 @@ export const fatCalculatorFormula: ICalculatorFormula = {
       ],
       sourceStandard:
         "USDA Dietary Guidelines for Americans (2020–2025); Institute of Medicine macronutrient ranges",
+      sourceLinks: [
+        { label: "USDA Dietary Guidelines 2020–2025", url: "https://www.dietaryguidelines.gov/" },
+        { label: "IOM — Macronutrient ranges", url: "https://www.ncbi.nlm.nih.gov/books/NBK545442/" },
+      ],
     };
   },
 };

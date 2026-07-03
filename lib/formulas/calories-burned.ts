@@ -81,6 +81,9 @@ export const caloriesBurnedFormula: ICalculatorFormula = {
       ],
       sourceStandard:
         "Compendium of Physical Activities (Ainsworth et al., 2011)",
+      sourceLinks: [
+        { label: "Ainsworth et al. (2011) — Compendium of PA", url: "https://pubmed.ncbi.nlm.nih.gov/21681120" },
+      ],
     };
   },
 };

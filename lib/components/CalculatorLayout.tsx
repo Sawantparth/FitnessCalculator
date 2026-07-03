@@ -155,9 +155,30 @@ export function CalculatorLayout({
             {result.interpretation}
           </p>
 
-          <p style={{ fontSize: 13, color: "var(--text-muted)" }}>
-            Source: {result.sourceStandard}
-          </p>
+          <div style={{ fontSize: 13, color: "var(--text-muted)" }}>
+            <strong>Sources:</strong>
+            {result.sourceLinks ? (
+              <ul style={{ margin: "4px 0 0 0", paddingLeft: 16, listStyle: "none" }}>
+                {result.sourceLinks.map((link, i) => (
+                  <li key={i}>
+                    <a
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        color: "var(--primary)",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <span> {result.sourceStandard}</span>
+            )}
+          </div>
 
           {/* Expandable assumptions */}
           <div style={{ marginTop: 16 }}>

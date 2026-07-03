@@ -97,6 +97,10 @@ export const iifymFormula: ICalculatorFormula = {
       ],
       sourceStandard:
         "Mifflin et al. (1990); USDA Dietary Guidelines for Americans (2020–2025)",
+      sourceLinks: [
+        { label: "Mifflin et al. (1990) — REE equation", url: "https://pubmed.ncbi.nlm.nih.gov/2305711" },
+        { label: "USDA Dietary Guidelines 2020–2025", url: "https://www.dietaryguidelines.gov/" },
+      ],
     };
   },
 };

@@ -64,6 +64,10 @@ export const carbCalculatorFormula: ICalculatorFormula = {
       ],
       sourceStandard:
         "USDA Dietary Guidelines for Americans (2020–2025); ISSN position stand (carbohydrates)",
+      sourceLinks: [
+        { label: "USDA Dietary Guidelines 2020–2025", url: "https://www.dietaryguidelines.gov/" },
+        { label: "ISSN — Carbohydrate and exercise", url: "https://pubmed.ncbi.nlm.nih.gov/28642676" },
+      ],
     };
   },
 };

@@ -52,6 +52,10 @@ export const bmrCalculatorFormula: ICalculatorFormula = {
       ],
       sourceStandard:
         "Mifflin et al. (1990); Harris-Benedict (1919, revised Roza & Shizgal 1984); Katch-McArdle (1975)",
+      sourceLinks: [
+        { label: "Mifflin et al. (1990) — REE equation", url: "https://pubmed.ncbi.nlm.nih.gov/2305711" },
+        { label: "Harris-Benedict — Roza & Shizgal (1984)", url: "https://pubmed.ncbi.nlm.nih.gov/6399431" },
+      ],
     };
   },
 };

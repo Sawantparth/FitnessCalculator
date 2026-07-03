@@ -62,6 +62,10 @@ export const oneRepMaxFormula: ICalculatorFormula = {
         "Use actual 1RM testing with proper form and spotters for precision.",
       ],
       sourceStandard: "Epley (1985); Brzycki (1993); Lombardi (1989) — standard 1RM estimation equations",
+      sourceLinks: [
+        { label: "Epley (1985) — 1RM formula", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4527079/" },
+        { label: "Brzycki (1993) — 1RM prediction", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4527079/" },
+      ],
     };
   },
 };

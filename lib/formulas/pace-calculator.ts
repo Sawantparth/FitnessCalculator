@@ -67,6 +67,9 @@ export const paceCalculatorFormula: ICalculatorFormula = {
         "Use GPS or a footpod for real-time pace accuracy.",
       ],
       sourceStandard: "Standard pace–speed conversion formulas; ACSM metabolic equations",
+      sourceLinks: [
+        { label: "ACSM — Metabolic equations", url: "https://www.acsm.org/" },
+      ],
     };
   },
 };

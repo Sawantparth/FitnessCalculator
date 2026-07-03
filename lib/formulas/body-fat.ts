@@ -202,6 +202,11 @@ export const bodyFatFormula: ICalculatorFormula = {
       ],
       sourceStandard:
         "US Navy — Hodgdon & Beckett (1984); Deurenberg et al. (1991); Jackson & Pollock (1978)",
+      sourceLinks: [
+        { label: "US Navy — Hodgdon & Beckett (1984)", url: "https://apps.dtic.mil/sti/citations/ADA152111" },
+        { label: "Deurenberg et al. (1991) — BMI-based BF%", url: "https://pubmed.ncbi.nlm.nih.gov/2038988" },
+        { label: "Jackson & Pollock (1978) — 3-site skinfold", url: "https://pubmed.ncbi.nlm.nih.gov/739012" },
+      ],
     };
   },
 };

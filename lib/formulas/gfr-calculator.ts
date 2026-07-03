@@ -88,6 +88,11 @@ export const gfrCalculatorFormula: ICalculatorFormula = {
         "Confirm abnormal results with cystatin C or measured GFR (mGFR).",
       ],
       sourceStandard: "CKD-EPI (Levey et al., 2009 Annals of Internal Medicine); MDRD (Levey et al., 1999); KDIGO 2012 guidelines",
+      sourceLinks: [
+        { label: "CKD-EPI — Levey et al. (2009)", url: "https://pubmed.ncbi.nlm.nih.gov/19414839" },
+        { label: "MDRD — Levey et al. (1999)", url: "https://pubmed.ncbi.nlm.nih.gov/10075613" },
+        { label: "KDIGO 2012 CKD guidelines", url: "https://kdigo.org/guidelines/ckd-evaluation-and-management/" },
+      ],
     };
   },
 };

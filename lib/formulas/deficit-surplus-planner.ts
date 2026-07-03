@@ -74,6 +74,9 @@ export const deficitSurplusFormula: ICalculatorFormula = {
       ],
       sourceStandard:
         "General sports nutrition guidelines; WHO/FAO energy requirements",
+      sourceLinks: [
+        { label: "WHO/FAO — Energy requirements", url: "https://www.fao.org/3/y5686e/y5686e00.htm" },
+      ],
     };
   },
 };

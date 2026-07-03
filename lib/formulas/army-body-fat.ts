@@ -62,6 +62,9 @@ export const armyBodyFatFormula: ICalculatorFormula = {
         "Does not account for age-related body composition changes.",
       ],
       sourceStandard: "US Army Regulation 600-9 (Department of Defense)",
+      sourceLinks: [
+        { label: "AR 600-9 — The Army Body Fat Assessment", url: "https://armypubs.army.mil/epubs/DR_pubs/DR_a/ARN36049-AR_600-9-000-WEB-1.pdf" },
+      ],
     };
   },
 };

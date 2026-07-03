@@ -82,6 +82,9 @@ export const macroCalculatorFormula: ICalculatorFormula = {
       ],
       sourceStandard:
         "USDA Dietary Guidelines for Americans (2020–2025); general sports nutrition",
+      sourceLinks: [
+        { label: "USDA Dietary Guidelines 2020–2025", url: "https://www.dietaryguidelines.gov/" },
+      ],
     };
   },
 };

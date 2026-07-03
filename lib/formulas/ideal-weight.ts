@@ -71,6 +71,11 @@ export const idealWeightFormula: ICalculatorFormula = {
       ],
       sourceStandard:
         "Devine (1974), Robinson et al. (1983), Miller et al. (1983), Hamwi (1964)",
+      sourceLinks: [
+        { label: "Devine (1974) — Gentamicin therapy", url: "https://pubmed.ncbi.nlm.nih.gov/4604950" },
+        { label: "Robinson et al. (1983) — IBW equations", url: "https://pubmed.ncbi.nlm.nih.gov/6856505" },
+        { label: "Miller et al. (1983) — IBW formulas", url: "https://pubmed.ncbi.nlm.nih.gov/6640341" },
+      ],
     };
   },
 };

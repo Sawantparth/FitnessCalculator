@@ -85,6 +85,9 @@ export const dueDateFormula: ICalculatorFormula = {
         "Not all pregnancies reach 40 weeks; early or late deliveries are common.",
       ],
       sourceStandard: "Naegele's Rule (19th century); ACOG pregnancy dating guidelines",
+      sourceLinks: [
+        { label: "ACOG — Pregnancy dating guidelines", url: "https://www.acog.org/clinical/clinical-guidance" },
+      ],
     };
   },
 };

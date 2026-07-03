@@ -57,6 +57,10 @@ export const pregnancyTrackerFormula: ICalculatorFormula = {
       ],
       sourceStandard:
         "ACOG pregnancy dating guidelines; WHO antenatal care recommendations",
+      sourceLinks: [
+        { label: "ACOG — Pregnancy dating guidelines", url: "https://www.acog.org/clinical/clinical-guidance" },
+        { label: "WHO — Antenatal care", url: "https://www.who.int/health-topics/pregnancy" },
+      ],
     };
   },
 };

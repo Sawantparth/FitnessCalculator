@@ -81,6 +81,9 @@ export const pregnancyWeightGainFormula: ICalculatorFormula = {
         "Not suitable for adolescents or certain medical conditions.",
       ],
       sourceStandard: "Institute of Medicine (2009) — Weight Gain During Pregnancy: Reexamining the Guidelines",
+      sourceLinks: [
+        { label: "IOM (2009) — Pregnancy weight gain", url: "https://www.ncbi.nlm.nih.gov/books/NBK32813/" },
+      ],
     };
   },
 };

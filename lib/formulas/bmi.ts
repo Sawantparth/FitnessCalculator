@@ -46,6 +46,10 @@ export const bmiFormula: ICalculatorFormula = {
         "Developed primarily for adult populations (18–65 years).",
       ],
       sourceStandard: "WHO — Global Database on Body Mass Index",
+      sourceLinks: [
+        { label: "WHO — Obesity and overweight", url: "https://www.who.int/health-topics/obesity" },
+        { label: "WHO — Global Database on BMI", url: "https://www.who.int/data/gho/data/themes/topics/body-mass-index" },
+      ],
     };
 
     return result;

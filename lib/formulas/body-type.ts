@@ -103,6 +103,9 @@ export const bodyTypeFormula: ICalculatorFormula = {
         "Not a medical diagnosis; body composition analysis (DXA, calipers) is more precise.",
       ],
       sourceStandard: "Heath-Carter somatotyping method (1967); Sheldon (1940) constitutional psychology",
+      sourceLinks: [
+        { label: "Heath-Carter somatotype method", url: "https://pubmed.ncbi.nlm.nih.gov/6049236" },
+      ],
     };
   },
 };

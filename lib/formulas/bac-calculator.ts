@@ -75,6 +75,10 @@ export const bacCalculatorFormula: ICalculatorFormula = {
         "Alcohol absorption is not instantaneous; peak BAC occurs 30–90 minutes after the last drink.",
       ],
       sourceStandard: "Widmark (1932) — Die theoretischen Grundlagen; NHTSA alcohol research; forensic toxicology standards",
+      sourceLinks: [
+        { label: "NHTSA — Alcohol and driving", url: "https://www.nhtsa.gov/impaired-driving/drunk-driving" },
+        { label: "NIAAA — Alcohol metabolism", url: "https://pubs.niaaa.nih.gov/publications/aa72/aa72.htm" },
+      ],
     };
   },
 };

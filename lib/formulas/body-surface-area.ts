@@ -49,6 +49,10 @@ export const bodySurfaceAreaFormula: ICalculatorFormula = {
         "BSA-based dosing should be verified by a qualified healthcare professional.",
       ],
       sourceStandard: "Mosteller (1987); Du Bois & Du Bois (1916); standard clinical BSA estimation",
+      sourceLinks: [
+        { label: "Mosteller (1987) — Simplified BSA", url: "https://pubmed.ncbi.nlm.nih.gov/3864812" },
+        { label: "Du Bois & Du Bois (1916) — BSA formula", url: "https://pubmed.ncbi.nlm.nih.gov/2526714" },
+      ],
     };
   },
 };

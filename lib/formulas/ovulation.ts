@@ -61,6 +61,10 @@ export const ovulationFormula: ICalculatorFormula = {
       ],
       sourceStandard:
         "ACOG ovulation tracking guidelines; Wilcox et al. (NEJM 2001) fertile window study",
+      sourceLinks: [
+        { label: "Wilcox et al. (2001) — Fertile window", url: "https://pubmed.ncbi.nlm.nih.gov/11413477" },
+        { label: "ACOG — Ovulation tracking", url: "https://www.acog.org/womens-health/faqs/menstruation" },
+      ],
     };
   },
 };

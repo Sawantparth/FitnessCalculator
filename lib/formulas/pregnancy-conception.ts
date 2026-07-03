@@ -70,6 +70,11 @@ export const pregnancyConceptionFormula: ICalculatorFormula = {
       ],
       sourceStandard:
         "ACOG pregnancy dating guidelines; Wilcox et al. (NEJM 1995, 2001)",
+      sourceLinks: [
+        { label: "Wilcox et al. (1995) — Timing of fertilization", url: "https://pubmed.ncbi.nlm.nih.gov/7565985" },
+        { label: "Wilcox et al. (2001) — Fertile window", url: "https://pubmed.ncbi.nlm.nih.gov/11413477" },
+        { label: "ACOG — Pregnancy dating", url: "https://www.acog.org/clinical/clinical-guidance" },
+      ],
     };
   },
 };

@@ -8,6 +8,11 @@ export interface SecondaryResult {
   unit: string;
 }
 
+export interface SourceLink {
+  label: string;
+  url: string;
+}
+
 export interface CalculatorResult {
   primary: {
     label: string;
@@ -18,6 +23,7 @@ export interface CalculatorResult {
   interpretation: string;
   limitations: string[];
   sourceStandard: string;
+  sourceLinks?: SourceLink[];
 }
 
 /* ───── Interface every calculator formula must implement ───── */

@@ -66,6 +66,9 @@ export const periodFormula: ICalculatorFormula = {
       ],
       sourceStandard:
         "ACOG menstrual cycle guidelines; average cycle length 28 days (range 21–45 days in adults)",
+      sourceLinks: [
+        { label: "ACOG — Menstruation FAQs", url: "https://www.acog.org/womens-health/faqs/menstruation" },
+      ],
     };
   },
 };

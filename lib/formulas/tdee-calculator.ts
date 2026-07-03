@@ -106,6 +106,11 @@ export const tdeeCalculatorFormula: ICalculatorFormula = {
       ],
       sourceStandard:
         "Mifflin et al. (1990); Harris-Benedict (1919/1984); Katch-McArdle (1975); activity factors from WHO/FAO",
+      sourceLinks: [
+        { label: "Mifflin et al. (1990) — REE equation", url: "https://pubmed.ncbi.nlm.nih.gov/2305711" },
+        { label: "Harris-Benedict — Roza & Shizgal (1984)", url: "https://pubmed.ncbi.nlm.nih.gov/6399431" },
+        { label: "WHO/FAO — Energy requirements", url: "https://www.fao.org/3/y5686e/y5686e00.htm" },
+      ],
     };
   },
 };

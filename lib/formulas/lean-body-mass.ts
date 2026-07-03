@@ -69,6 +69,11 @@ export const leanBodyMassFormula: ICalculatorFormula = {
       ],
       sourceStandard:
         "Boer (1984), James (1976), Hume (1966)",
+      sourceLinks: [
+        { label: "Boer (1984) — LBM by anthropometry", url: "https://pubmed.ncbi.nlm.nih.gov/6517274" },
+        { label: "James (1976) — LBM equations", url: "https://pubmed.ncbi.nlm.nih.gov/1002215" },
+        { label: "Hume (1966) — LBM prediction", url: "https://pubmed.ncbi.nlm.nih.gov/5950699" },
+      ],
     };
   },
 };

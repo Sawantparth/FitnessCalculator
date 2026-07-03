@@ -57,6 +57,10 @@ export const proteinCalculatorFormula: ICalculatorFormula = {
       ],
       sourceStandard:
         "Academy of Nutrition and Dietetics; ISSN position stand (protein)",
+      sourceLinks: [
+        { label: "ISSN — Protein and exercise (2017)", url: "https://pubmed.ncbi.nlm.nih.gov/28642676" },
+        { label: "Academy of Nutrition and Dietetics", url: "https://www.eatright.org/" },
+      ],
     };
   },
 };

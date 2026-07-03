@@ -123,6 +123,9 @@ export const weightLossFormula: ICalculatorFormula = {
         "Not suitable for individuals with eating disorders or medical conditions.",
       ],
       sourceStandard: "Mifflin et al. (1990) — A new predictive equation for resting energy expenditure",
+      sourceLinks: [
+        { label: "Mifflin et al. (1990) — REE equation", url: "https://pubmed.ncbi.nlm.nih.gov/2305711" },
+      ],
     };
   },
 };

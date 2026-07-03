@@ -86,6 +86,11 @@ export const targetHeartRateFormula: ICalculatorFormula = {
         "For precise training zones, consider a graded exercise test.",
       ],
       sourceStandard: "Karvonen (1957) — heart rate reserve method; Fox (1971) — 220 − age formula; ACSM guidelines",
+      sourceLinks: [
+        { label: "Karvonen (1957) — HR reserve method", url: "https://pubmed.ncbi.nlm.nih.gov/13477710" },
+        { label: "Fox (1971) — 220 − age formula", url: "https://pubmed.ncbi.nlm.nih.gov/5561404" },
+        { label: "ACSM — Exercise guidelines", url: "https://www.acsm.org/" },
+      ],
     };
   },
 };
