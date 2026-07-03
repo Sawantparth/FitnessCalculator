@@ -176,14 +176,6 @@ export default function HomePage() {
 
       </div>
 
-      {/* Decorative marquee */}
-      <div aria-hidden="true" className="hero-marquee">
-        <div className="hero-marquee-track">
-          <span className="hero-marquee-text">NEVER GIVE UP</span>
-          <span className="hero-marquee-text">NEVER GIVE UP</span>
-        </div>
-      </div>
-
       {/* Right column */}
       <div
         style={{

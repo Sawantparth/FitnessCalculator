@@ -32,32 +32,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SavedResultsProvider>
             <UnitProvider>{children}</UnitProvider>
           </SavedResultsProvider>
-          <div className="wrapper no-print">
-            <span className="letter letter1">N</span>
-            <span className="letter letter2">e</span>
-            <span className="letter letter3">v</span>
-            <span className="letter letter4">e</span>
-            <span className="letter letter5">r</span>
-            <span className="letter letter6">&nbsp;</span>
-            <span className="letter letter7">G</span>
-            <span className="letter letter8">o</span>
-            <span className="letter letter9">n</span>
-            <span className="letter letter10">n</span>
-            <span className="letter letter11">a</span>
-            <span className="letter letter12">&nbsp;</span>
-            <span className="letter letter13">G</span>
-            <span className="letter letter14">i</span>
-            <span className="letter letter15">v</span>
-            <span className="letter letter16">e</span>
-            <span className="letter letter17">&nbsp;</span>
-            <span className="letter letter18">Y</span>
-            <span className="letter letter19">o</span>
-            <span className="letter letter20">u</span>
-            <span className="letter letter21">&nbsp;</span>
-            <span className="letter letter22">U</span>
-            <span className="letter letter23">p</span>
-            <span className="letter letter24">&nbsp;</span>
-          </div>
         </div>
       </body>
     </html>
