@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Michroma, Space_Grotesk } from "next/font/google";
 import { UnitProvider } from "@/lib/context/UnitContext";
@@ -19,14 +19,15 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#E3DDD4",
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${michroma.variable} ${spaceGrotesk.variable}`}>
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#E3DDD4" />
-      </head>
       <body style={{ margin: 0, fontFamily: "var(--font-space), sans-serif", overflowX: "hidden" }}>
         <div className="content">
           <SavedResultsProvider>
