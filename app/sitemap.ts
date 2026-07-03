@@ -11,7 +11,9 @@ const CALCULATORS = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://calculator-platform.example.com";
+  const base = process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "http://localhost:3000";
   const pages = CALCULATORS.map((slug) => ({
     url: `${base}/calculators/${slug}`,
     lastModified: new Date(),
