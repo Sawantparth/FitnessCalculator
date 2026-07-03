@@ -1,5 +1,5 @@
 import { round } from "@/lib/core/precision";
-import { requireNumbers } from "@/lib/core/validation";
+import { checkRange, validateInputs, ValidationIssue } from "@/lib/core/validation";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 
 export function maxHeartRateSimple(age: number): number {
@@ -24,7 +24,13 @@ export const targetHeartRateFormula: ICalculatorFormula = {
   description: "Calculates target heart rate zones using the Karvonen method and simple max-HR method (220 − age).",
 
   validate(inputs) {
-    return { valid: true, issues: requireNumbers(inputs, ["age", "restingHR"]) };
+    return validateInputs(
+      inputs,
+      ["age", "restingHR"],
+      [
+        checkRange({ field: "restingHR", value: inputs.restingHR as number, min: 20, max: 220, label: "Resting heart rate" }),
+      ].filter((x): x is ValidationIssue => x !== null),
+    );
   },
 
   calculate(inputs) {

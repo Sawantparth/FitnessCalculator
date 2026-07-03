@@ -1,5 +1,5 @@
 import { round } from "@/lib/core/precision";
-import { requireNumbers } from "@/lib/core/validation";
+import { validateInputs } from "@/lib/core/validation";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 
 export function fatRecommendation(calories: number): { minG: number; maxG: number; minPct: number; maxPct: number } {
@@ -24,7 +24,7 @@ export const fatCalculatorFormula: ICalculatorFormula = {
     "Recommends daily fat intake based on calorie needs and body weight.",
 
   validate(inputs) {
-    return { valid: true, issues: requireNumbers(inputs, ["calories", "weightKg"]) };
+    return validateInputs(inputs, ["calories", "weightKg"]);
   },
 
   calculate(inputs) {

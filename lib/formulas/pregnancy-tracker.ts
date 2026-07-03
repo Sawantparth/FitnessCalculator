@@ -1,5 +1,5 @@
 import { addDays, differenceInDays, format } from "date-fns";
-import { requireNumbers } from "@/lib/core/validation";
+import { validateInputs } from "@/lib/core/validation";
 import { getTrimester, getMilestones } from "@/lib/core/pregnancy-data";
 import { dueDateFromLMP, conceptionFromLMP } from "@/lib/formulas/due-date";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
@@ -11,10 +11,7 @@ export const pregnancyTrackerFormula: ICalculatorFormula = {
     "Tracks current pregnancy week, trimester, milestones, and prenatal nutrition guidance.",
 
   validate(inputs) {
-    return {
-      valid: true,
-      issues: requireNumbers(inputs, ["lmpTimestamp"]),
-    };
+    return validateInputs(inputs, ["lmpTimestamp"]);
   },
 
   calculate(inputs) {

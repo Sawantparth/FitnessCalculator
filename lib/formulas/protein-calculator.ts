@@ -1,5 +1,5 @@
 import { round } from "@/lib/core/precision";
-import { requireNumbers } from "@/lib/core/validation";
+import { checkEnum, validateInputs, ValidationIssue } from "@/lib/core/validation";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 
 export const PROTEIN_PROFILES: Record<number, { label: string; gPerKg: number; range: [number, number] }> = {
@@ -26,12 +26,11 @@ export const proteinCalculatorFormula: ICalculatorFormula = {
     "Recommends daily protein intake based on weight and activity profile.",
 
   validate(inputs) {
-    const issues = requireNumbers(inputs, ["weightKg", "profile"]);
-    const profile = Number(inputs.profile);
-    if (![0, 1, 2, 3, 4].includes(profile)) {
-      issues.push({ field: "profile", severity: "error", message: "Select a valid profile." });
-    }
-    return { valid: issues.length === 0, issues };
+    return validateInputs(
+      inputs,
+      ["weightKg", "profile"],
+      [checkEnum("profile", Number(inputs.profile), [0, 1, 2, 3, 4])].filter((x): x is ValidationIssue => x !== null),
+    );
   },
 
   calculate(inputs) {

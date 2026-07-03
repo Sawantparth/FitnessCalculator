@@ -1,5 +1,5 @@
 import { round } from "@/lib/core/precision";
-import { requireNumbers } from "@/lib/core/validation";
+import { requireNumbers, checkRange, validateInputs } from "@/lib/core/validation";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 
 export interface METActivity {
@@ -47,10 +47,17 @@ export const caloriesBurnedFormula: ICalculatorFormula = {
     "Estimates calories burned during physical activity using MET values.",
 
   validate(inputs) {
-    const issues = requireNumbers(inputs, ["weightKg", "activityIndex", "durationMinutes"]);
+    const base = validateInputs(inputs, ["weightKg"]);
+    if (!base.valid) return base;
+    const issues = [...base.issues];
+    issues.push(...requireNumbers(inputs, ["activityIndex", "durationMinutes"]));
     const idx = Number(inputs.activityIndex);
-    if (idx < 0 || idx >= MET_ACTIVITIES.length) {
+    if (idx < 0 || idx >= MET_ACTIVITIES.length || !Number.isInteger(idx)) {
       issues.push({ field: "activityIndex", severity: "error", message: "Select a valid activity." });
+    }
+    const dur = inputs.durationMinutes as number;
+    if (typeof dur === "number" && (dur < 1 || dur > 1440)) {
+      issues.push({ field: "durationMinutes", severity: "error", message: "Duration must be between 1 and 1440 minutes." });
     }
     return { valid: issues.length === 0, issues };
   },

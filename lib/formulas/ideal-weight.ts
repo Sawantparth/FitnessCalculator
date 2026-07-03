@@ -1,5 +1,5 @@
 import { round } from "@/lib/core/precision";
-import { requireNumbers } from "@/lib/core/validation";
+import { validateInputs, checkEnum, ValidationIssue } from "@/lib/core/validation";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 
 export function idealWeightDevine(heightIn: number, isMale: boolean): number {
@@ -32,10 +32,11 @@ export const idealWeightFormula: ICalculatorFormula = {
     "Estimates ideal body weight using Devine, Robinson, Miller, and Hamwi formulas.",
 
   validate(inputs) {
-    return {
-      valid: true,
-      issues: requireNumbers(inputs, ["heightIn", "gender"]),
-    };
+    return validateInputs(
+      inputs,
+      ["heightIn", "gender"],
+      [checkEnum("gender", Number(inputs.gender), [0, 1])].filter((x): x is ValidationIssue => x !== null),
+    );
   },
 
   calculate(inputs) {

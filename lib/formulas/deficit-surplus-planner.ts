@@ -1,5 +1,5 @@
 import { round } from "@/lib/core/precision";
-import { requireNumbers } from "@/lib/core/validation";
+import { checkEnum, validateInputs, ValidationIssue } from "@/lib/core/validation";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 
 const GOAL_NAMES: Record<number, string> = {
@@ -41,12 +41,11 @@ export const deficitSurplusFormula: ICalculatorFormula = {
     "Calculates target daily calories for cutting (fat loss), maintenance, or bulking (muscle gain).",
 
   validate(inputs) {
-    const issues = requireNumbers(inputs, ["tdee", "goal"]);
-    const goal = Number(inputs.goal);
-    if (![0, 1, 2].includes(goal)) {
-      issues.push({ field: "goal", severity: "error", message: "Select a valid goal." });
-    }
-    return { valid: issues.length === 0, issues };
+    return validateInputs(
+      inputs,
+      ["tdee", "goal"],
+      [checkEnum("goal", Number(inputs.goal), [0, 1, 2])].filter((x): x is ValidationIssue => x !== null),
+    );
   },
 
   calculate(inputs) {

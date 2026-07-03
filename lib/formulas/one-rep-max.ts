@@ -1,5 +1,5 @@
 import { round } from "@/lib/core/precision";
-import { requireNumbers } from "@/lib/core/validation";
+import { checkRange, validateInputs, ValidationIssue } from "@/lib/core/validation";
 import { suggestedWeightIncrease } from "@/lib/core/training-progression";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 
@@ -22,7 +22,15 @@ export const oneRepMaxFormula: ICalculatorFormula = {
   description: "Estimates your one-rep maximum from submaximal lifts using Epley, Brzycki, and Lombardi formulas, with training progression suggestions.",
 
   validate(inputs) {
-    return { valid: true, issues: requireNumbers(inputs, ["weightKg", "reps", "sets", "weeksOnProgram"]) };
+    return validateInputs(
+      inputs,
+      ["weightKg", "reps", "sets", "weeksOnProgram"],
+      [
+        checkRange({ field: "reps", value: inputs.reps as number, min: 1, max: 100, label: "Repetitions" }),
+        checkRange({ field: "sets", value: inputs.sets as number, min: 1, max: 20, label: "Sets" }),
+        checkRange({ field: "weeksOnProgram", value: inputs.weeksOnProgram as number, min: 0, max: 52, label: "Weeks on program" }),
+      ].filter((x): x is ValidationIssue => x !== null),
+    );
   },
 
   calculate(inputs) {

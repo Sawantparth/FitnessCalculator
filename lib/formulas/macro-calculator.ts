@@ -1,5 +1,5 @@
 import { round } from "@/lib/core/precision";
-import { requireNumbers } from "@/lib/core/validation";
+import { checkEnum, validateInputs, ValidationIssue } from "@/lib/core/validation";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 
 export interface MacroSplit {
@@ -37,12 +37,11 @@ export const macroCalculatorFormula: ICalculatorFormula = {
     "Calculates daily macronutrient targets based on calorie intake and preset macro splits.",
 
   validate(inputs) {
-    const issues = requireNumbers(inputs, ["calories", "preset"]);
-    const preset = Number(inputs.preset);
-    if (![0, 1, 2].includes(preset)) {
-      issues.push({ field: "preset", severity: "error", message: "Select a valid preset." });
-    }
-    return { valid: issues.length === 0, issues };
+    return validateInputs(
+      inputs,
+      ["calories", "preset"],
+      [checkEnum("preset", Number(inputs.preset), [0, 1, 2])].filter((x): x is ValidationIssue => x !== null),
+    );
   },
 
   calculate(inputs) {

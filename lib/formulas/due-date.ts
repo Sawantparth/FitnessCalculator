@@ -1,5 +1,5 @@
 import { addDays, differenceInDays, format } from "date-fns";
-import { requireNumbers } from "@/lib/core/validation";
+import { validateInputs } from "@/lib/core/validation";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 import type { ValidationIssue } from "@/lib/core/validation";
 
@@ -34,11 +34,16 @@ export const dueDateFormula: ICalculatorFormula = {
 
   validate(inputs) {
     const issues: ValidationIssue[] = [];
-    issues.push(...requireNumbers(inputs, ["mode"]));
     const mode = Number(inputs.mode);
-    if (mode === 0) issues.push(...requireNumbers(inputs, ["lmpTimestamp"]));
-    else if (mode === 1) issues.push(...requireNumbers(inputs, ["conceptionTimestamp"]));
-    else issues.push({ field: "mode", severity: "error", message: "Mode must be 0 (LMP) or 1 (conception)." });
+    if (![0, 1].includes(mode)) {
+      issues.push({ field: "mode", severity: "error", message: "Mode must be 0 (LMP) or 1 (conception)." });
+      return { valid: false, issues };
+    }
+    const tsField = mode === 0 ? "lmpTimestamp" : "conceptionTimestamp";
+    const ts = inputs[tsField];
+    if (typeof ts !== "number" || Number.isNaN(ts)) {
+      issues.push({ field: tsField, severity: "error", message: "Date is required." });
+    }
     return { valid: issues.length === 0, issues };
   },
 

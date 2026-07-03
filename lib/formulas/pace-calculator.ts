@@ -1,5 +1,5 @@
 import { round } from "@/lib/core/precision";
-import { requireNumbers } from "@/lib/core/validation";
+import { checkEnum, checkRange, validateInputs, ValidationIssue } from "@/lib/core/validation";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 
 export function paceToSpeed(minutes: number, seconds: number, distanceUnit: "km" | "mile"): number {
@@ -28,7 +28,16 @@ export const paceCalculatorFormula: ICalculatorFormula = {
   description: "Converts between pace (min per km/mile) and speed (km/h or mph), and estimates total time for a given distance.",
 
   validate(inputs) {
-    return { valid: true, issues: requireNumbers(inputs, ["paceMinutes", "paceSeconds", "distance", "unit"]) };
+    return validateInputs(
+      inputs,
+      ["paceMinutes", "paceSeconds", "distance", "unit"],
+      [
+        checkEnum("unit", Number(inputs.unit), [0, 1]),
+        checkRange({ field: "paceMinutes", value: inputs.paceMinutes as number, min: 0, max: 180, label: "Pace minutes" }),
+        checkRange({ field: "paceSeconds", value: inputs.paceSeconds as number, min: 0, max: 59, label: "Pace seconds" }),
+        checkRange({ field: "distance", value: inputs.distance as number, min: 0.01, max: 10000, label: "Distance" }),
+      ].filter((x): x is ValidationIssue => x !== null),
+    );
   },
 
   calculate(inputs) {

@@ -1,6 +1,5 @@
 import { round } from "@/lib/core/precision";
-import { requireNumbers } from "@/lib/core/validation";
-import type { ValidationIssue } from "@/lib/core/validation";
+import { requireNumbers, checkEnum, validateInputs } from "@/lib/core/validation";
 import {
   mifflinStJeor,
   harrisBenedict,
@@ -22,10 +21,14 @@ export const calorieCalculatorFormula: ICalculatorFormula = {
     "Estimates daily calorie needs using Mifflin-St Jeor, Harris-Benedict, or Katch-McArdle equations.",
 
   validate(inputs) {
-    const issues: ValidationIssue[] = [];
-    issues.push(
-      ...requireNumbers(inputs, ["method", "weightKg", "heightCm", "age", "gender"]),
+    const base = validateInputs(
+      inputs,
+      ["weightKg", "heightCm", "age", "gender"],
+      [checkEnum("gender", Number(inputs.gender), [0, 1])].filter(Boolean) as any,
     );
+    if (!base.valid) return base;
+    const issues = [...base.issues];
+    issues.push(...requireNumbers(inputs, ["method"]));
     const method = Number(inputs.method);
     if (![0, 1, 2, 3].includes(method)) {
       issues.push({ field: "method", severity: "error", message: "Select a valid method." });

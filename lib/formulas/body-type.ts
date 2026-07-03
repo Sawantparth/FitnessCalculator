@@ -1,5 +1,5 @@
 import { round } from "@/lib/core/precision";
-import { requireNumbers } from "@/lib/core/validation";
+import { validateInputs, checkEnum, ValidationIssue } from "@/lib/core/validation";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 
 export type BodyType = "ectomorph" | "mesomorph" | "endomorph";
@@ -62,7 +62,11 @@ export const bodyTypeFormula: ICalculatorFormula = {
   description: "Estimates your body type (somatotype) based on anthropometric measurements using a simplified Heath-Carter approach.",
 
   validate(inputs) {
-    return { valid: true, issues: requireNumbers(inputs, ["heightCm", "weightKg", "shoulderCm", "waistCm", "hipCm", "gender"]) };
+    return validateInputs(
+      inputs,
+      ["heightCm", "weightKg", "shoulderCm", "waistCm", "hipCm", "gender"],
+      [checkEnum("gender", Number(inputs.gender), [0, 1])].filter((x): x is ValidationIssue => x !== null),
+    );
   },
 
   calculate(inputs) {

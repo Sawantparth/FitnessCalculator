@@ -1,5 +1,5 @@
 import { round } from "@/lib/core/precision";
-import { requireNumbers } from "@/lib/core/validation";
+import { requireNumbers, checkEnum, checkRange, validateInputs, ValidationIssue } from "@/lib/core/validation";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 
 const STANDARD_DRINK_G = 14;
@@ -39,7 +39,15 @@ export const bacCalculatorFormula: ICalculatorFormula = {
   description: "Estimates blood alcohol concentration (BAC) using the Widmark equation. For educational purposes only — not for determining legal driving fitness.",
 
   validate(inputs) {
-    return { valid: true, issues: requireNumbers(inputs, ["drinks", "weightKg", "gender", "hours"]) };
+    return validateInputs(
+      inputs,
+      ["drinks", "weightKg", "gender", "hours"],
+      [
+        checkEnum("gender", Number(inputs.gender), [0, 1]),
+        checkRange({ field: "drinks", value: inputs.drinks as number, min: 0.25, max: 100 }),
+        checkRange({ field: "hours", value: inputs.hours as number, min: 0, max: 48 }),
+      ].filter((x): x is ValidationIssue => x !== null),
+    );
   },
 
   calculate(inputs) {

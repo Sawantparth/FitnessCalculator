@@ -1,5 +1,5 @@
 import { round } from "@/lib/core/precision";
-import { requireNumbers } from "@/lib/core/validation";
+import { checkEnum, validateInputs, ValidationIssue } from "@/lib/core/validation";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 
 export function armyBodyFatMen(abdomenIn: number, neckIn: number, heightIn: number): number {
@@ -30,14 +30,17 @@ export const armyBodyFatFormula: ICalculatorFormula = {
     "Estimates body fat percentage using the US Army AR 600-9 circumference method.",
 
   validate(inputs) {
-    const issues = requireNumbers(inputs, ["heightIn", "neckIn", "gender"]);
+    const issues = validateInputs(
+      inputs,
+      ["heightIn", "neckIn", "gender"],
+      [checkEnum("gender", Number(inputs.gender), [0, 1])].filter(Boolean) as any,
+    );
+    if (!issues.valid) return issues;
     const gender = Number(inputs.gender);
     if (gender === 0) {
-      issues.push(...requireNumbers(inputs, ["abdomenIn"]));
-    } else {
-      issues.push(...requireNumbers(inputs, ["waistIn", "hipIn"]));
+      return validateInputs(inputs, ["abdomenIn"]);
     }
-    return { valid: issues.length === 0, issues };
+    return validateInputs(inputs, ["waistIn", "hipIn"]);
   },
 
   calculate(inputs) {

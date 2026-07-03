@@ -1,5 +1,5 @@
 import { round } from "@/lib/core/precision";
-import { requireNumbers } from "@/lib/core/validation";
+import { validateInputs, checkEnum, ValidationIssue } from "@/lib/core/validation";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 
 export function leanBodyMassBoer(weightKg: number, heightCm: number, isMale: boolean): number {
@@ -31,10 +31,11 @@ export const leanBodyMassFormula: ICalculatorFormula = {
     "Estimates lean body mass using Boer, James, and Hume formulas.",
 
   validate(inputs) {
-    return {
-      valid: true,
-      issues: requireNumbers(inputs, ["weightKg", "heightCm", "gender"]),
-    };
+    return validateInputs(
+      inputs,
+      ["weightKg", "heightCm", "gender"],
+      [checkEnum("gender", Number(inputs.gender), [0, 1])].filter((x): x is ValidationIssue => x !== null),
+    );
   },
 
   calculate(inputs) {

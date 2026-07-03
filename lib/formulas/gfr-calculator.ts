@@ -1,5 +1,5 @@
 import { round } from "@/lib/core/precision";
-import { requireNumbers } from "@/lib/core/validation";
+import { requireNumbers, checkEnum, checkRange, validateInputs, ValidationIssue } from "@/lib/core/validation";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 
 export function ckdEpi(
@@ -48,7 +48,15 @@ export const gfrCalculatorFormula: ICalculatorFormula = {
   description: "Estimates glomerular filtration rate (eGFR) using CKD-EPI (2009) and MDRD formulas for kidney function assessment.",
 
   validate(inputs) {
-    return { valid: true, issues: requireNumbers(inputs, ["serumCreatinine", "age", "gender", "isBlack"]) };
+    return validateInputs(
+      inputs,
+      ["serumCreatinine", "age", "gender", "isBlack"],
+      [
+        checkEnum("gender", Number(inputs.gender), [0, 1]),
+        checkEnum("isBlack", Number(inputs.isBlack), [0, 1]),
+        checkRange({ field: "serumCreatinine", value: inputs.serumCreatinine as number, min: 0.1, max: 50 }),
+      ].filter((x): x is ValidationIssue => x !== null),
+    );
   },
 
   calculate(inputs) {

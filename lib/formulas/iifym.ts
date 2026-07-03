@@ -1,6 +1,5 @@
 import { round } from "@/lib/core/precision";
-import { requireNumbers } from "@/lib/core/validation";
-import type { ValidationIssue } from "@/lib/core/validation";
+import { checkEnum, validateInputs, ValidationIssue } from "@/lib/core/validation";
 import {
   mifflinStJeor,
   ACTIVITY_FACTORS,
@@ -28,25 +27,16 @@ export const iifymFormula: ICalculatorFormula = {
     "Calculates total daily calories and macronutrient targets based on body stats, activity, goal, and macro preset.",
 
   validate(inputs) {
-    const issues: ValidationIssue[] = [];
-    issues.push(
-      ...requireNumbers(inputs, [
-        "weightKg", "heightCm", "age", "gender", "activityLevel", "goal", "preset",
-      ]),
+    return validateInputs(
+      inputs,
+      ["weightKg", "heightCm", "age", "gender", "activityLevel", "goal", "preset"],
+      [
+        checkEnum("gender", Number(inputs.gender), [0, 1]),
+        checkEnum("activityLevel", Number(inputs.activityLevel), [0, 1, 2, 3, 4]),
+        checkEnum("goal", Number(inputs.goal), [0, 1, 2]),
+        checkEnum("preset", Number(inputs.preset), [0, 1, 2]),
+      ].filter((x): x is ValidationIssue => x !== null),
     );
-    const al = Number(inputs.activityLevel);
-    if (al < 0 || al > 4) {
-      issues.push({ field: "activityLevel", severity: "error", message: "Activity level must be 0–4." });
-    }
-    const goal = Number(inputs.goal);
-    if (![0, 1, 2].includes(goal)) {
-      issues.push({ field: "goal", severity: "error", message: "Goal must be 0 (cut), 1 (maintain), or 2 (bulk)." });
-    }
-    const preset = Number(inputs.preset);
-    if (![0, 1, 2].includes(preset)) {
-      issues.push({ field: "preset", severity: "error", message: "Preset must be 0–2." });
-    }
-    return { valid: issues.length === 0, issues };
   },
 
   calculate(inputs) {

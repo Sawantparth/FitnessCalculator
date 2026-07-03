@@ -1,5 +1,5 @@
 import { addDays, format } from "date-fns";
-import { requireNumbers } from "@/lib/core/validation";
+import { requireNumbers, checkEnum, checkRange } from "@/lib/core/validation";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 import type { ValidationIssue } from "@/lib/core/validation";
 
@@ -31,6 +31,10 @@ export const conceptionFormula: ICalculatorFormula = {
     const mode = Number(inputs.mode);
     if (mode === 0) {
       issues.push(...requireNumbers(inputs, ["lmpTimestamp", "cycleLength"]));
+      const cl = Number(inputs.cycleLength);
+      if (!Number.isNaN(cl) && (cl < 20 || cl > 45)) {
+        issues.push({ field: "cycleLength", severity: "error", message: "Cycle length is typically between 20 and 45 days." });
+      }
     } else if (mode === 1) {
       issues.push(...requireNumbers(inputs, ["dueDateTimestamp"]));
     } else {

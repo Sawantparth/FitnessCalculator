@@ -1,6 +1,5 @@
 import { round } from "@/lib/core/precision";
-import { requireNumbers } from "@/lib/core/validation";
-import type { ValidationIssue } from "@/lib/core/validation";
+import { requireNumbers, checkEnum, validateInputs } from "@/lib/core/validation";
 import {
   mifflinStJeor,
   harrisBenedict,
@@ -24,17 +23,14 @@ export const tdeeCalculatorFormula: ICalculatorFormula = {
     "Estimates total daily energy expenditure based on BMR and activity level.",
 
   validate(inputs) {
-    const issues: ValidationIssue[] = [];
-    issues.push(
-      ...requireNumbers(inputs, [
-        "method",
-        "weightKg",
-        "heightCm",
-        "age",
-        "gender",
-        "activityLevel",
-      ]),
+    const base = validateInputs(
+      inputs,
+      ["weightKg", "heightCm", "age", "gender"],
+      [checkEnum("gender", Number(inputs.gender), [0, 1])].filter(Boolean) as any,
     );
+    if (!base.valid) return base;
+    const issues = [...base.issues];
+    issues.push(...requireNumbers(inputs, ["method", "activityLevel"]));
     const method = Number(inputs.method);
     if (![0, 1, 2, 3].includes(method)) {
       issues.push({ field: "method", severity: "error", message: "Select a valid method." });

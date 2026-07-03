@@ -1,5 +1,5 @@
 import { round } from "@/lib/core/precision";
-import { requireNumbers } from "@/lib/core/validation";
+import { validateInputs } from "@/lib/core/validation";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 
 export function mosteller(heightCm: number, weightKg: number): number {
@@ -16,7 +16,7 @@ export const bodySurfaceAreaFormula: ICalculatorFormula = {
   description: "Estimates body surface area (BSA) using Mosteller and Du Bois formulas — commonly used for medication dosing and physiological assessments.",
 
   validate(inputs) {
-    return { valid: true, issues: requireNumbers(inputs, ["heightCm", "weightKg"]) };
+    return validateInputs(inputs, ["heightCm", "weightKg"]);
   },
 
   calculate(inputs) {

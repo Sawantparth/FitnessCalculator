@@ -1,7 +1,6 @@
 import { round } from "@/lib/core/precision";
-import { requireNumbers } from "@/lib/core/validation";
+import { checkEnum, validateInputs, ValidationIssue } from "@/lib/core/validation";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
-import type { ValidationIssue } from "@/lib/core/validation";
 
 export const ACTIVITY_FACTORS: number[] = [1.2, 1.375, 1.55, 1.725, 1.9];
 
@@ -49,29 +48,14 @@ export const weightLossFormula: ICalculatorFormula = {
     "Estimates maintenance calories, optimal deficit, and projected weight loss timeline.",
 
   validate(inputs) {
-    const issues: ValidationIssue[] = [];
-    issues.push(
-      ...requireNumbers(inputs, [
-        "weightKg",
-        "heightCm",
-        "age",
-        "gender",
-        "targetWeightKg",
-        "deficitPerDay",
-        "activityLevel",
-      ]),
+    return validateInputs(
+      inputs,
+      ["weightKg", "heightCm", "age", "gender", "targetWeightKg", "deficitPerDay", "activityLevel"],
+      [
+        checkEnum("gender", Number(inputs.gender), [0, 1]),
+        checkEnum("activityLevel", Number(inputs.activityLevel), [0, 1, 2, 3, 4]),
+      ].filter((x): x is ValidationIssue => x !== null),
     );
-    if (
-      typeof inputs.activityLevel === "number" &&
-      (inputs.activityLevel < 0 || inputs.activityLevel > 4)
-    ) {
-      issues.push({
-        field: "activityLevel",
-        severity: "error",
-        message: "Activity level must be 0–4.",
-      });
-    }
-    return { valid: issues.length === 0, issues };
   },
 
   calculate(inputs) {

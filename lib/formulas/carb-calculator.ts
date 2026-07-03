@@ -1,5 +1,5 @@
 import { round } from "@/lib/core/precision";
-import { requireNumbers } from "@/lib/core/validation";
+import { checkEnum, validateInputs, ValidationIssue } from "@/lib/core/validation";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 
 const ACTIVITY_CARB_RANGES: Record<number, { label: string; pctRange: [number, number]; gRange: [number, number] }> = {
@@ -24,12 +24,11 @@ export const carbCalculatorFormula: ICalculatorFormula = {
     "Recommends daily carbohydrate intake based on calorie needs and activity level.",
 
   validate(inputs) {
-    const issues = requireNumbers(inputs, ["calories", "activityLevel"]);
-    const al = Number(inputs.activityLevel);
-    if (al < 0 || al > 4) {
-      issues.push({ field: "activityLevel", severity: "error", message: "Activity level must be 0–4." });
-    }
-    return { valid: issues.length === 0, issues };
+    return validateInputs(
+      inputs,
+      ["calories", "activityLevel"],
+      [checkEnum("activityLevel", Number(inputs.activityLevel), [0, 1, 2, 3, 4])].filter((x): x is ValidationIssue => x !== null),
+    );
   },
 
   calculate(inputs) {

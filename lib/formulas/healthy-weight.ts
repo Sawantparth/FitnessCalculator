@@ -1,5 +1,5 @@
 import { round } from "@/lib/core/precision";
-import { requireNumbers } from "@/lib/core/validation";
+import { validateInputs } from "@/lib/core/validation";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 
 export function healthyWeightRange(heightCm: number): { minKg: number; maxKg: number } {
@@ -17,10 +17,7 @@ export const healthyWeightFormula: ICalculatorFormula = {
     "Calculates the healthy weight range corresponding to a BMI of 18.5–24.9.",
 
   validate(inputs) {
-    return {
-      valid: true,
-      issues: requireNumbers(inputs, ["heightCm"]),
-    };
+    return validateInputs(inputs, ["heightCm"]);
   },
 
   calculate(inputs) {

@@ -1,5 +1,5 @@
 import { addDays, differenceInDays, format } from "date-fns";
-import { requireNumbers } from "@/lib/core/validation";
+import { requireNumbers, checkRange } from "@/lib/core/validation";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 import type { ValidationIssue } from "@/lib/core/validation";
 

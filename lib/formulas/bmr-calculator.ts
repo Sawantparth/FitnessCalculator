@@ -1,5 +1,5 @@
 import { round } from "@/lib/core/precision";
-import { requireNumbers } from "@/lib/core/validation";
+import { checkEnum, validateInputs, ValidationIssue } from "@/lib/core/validation";
 import {
   mifflinStJeor,
   harrisBenedict,
@@ -15,8 +15,11 @@ export const bmrCalculatorFormula: ICalculatorFormula = {
   description: "Compares basal metabolic rate estimates from Mifflin-St Jeor, Harris-Benedict, and Katch-McArdle.",
 
   validate(inputs) {
-    const issues = requireNumbers(inputs, ["weightKg", "heightCm", "age", "gender"]);
-    return { valid: issues.length === 0, issues };
+    return validateInputs(
+      inputs,
+      ["weightKg", "heightCm", "age", "gender"],
+      [checkEnum("gender", Number(inputs.gender), [0, 1])].filter((x): x is ValidationIssue => x !== null),
+    );
   },
 
   calculate(inputs) {

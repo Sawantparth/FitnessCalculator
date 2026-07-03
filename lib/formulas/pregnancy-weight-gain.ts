@@ -1,5 +1,5 @@
 import { round } from "@/lib/core/precision";
-import { requireNumbers } from "@/lib/core/validation";
+import { checkRange, validateInputs, ValidationIssue } from "@/lib/core/validation";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 
 export interface IOMGuideline {
@@ -48,10 +48,13 @@ export const pregnancyWeightGainFormula: ICalculatorFormula = {
     "Recommends weight gain targets per IOM (2009) guidelines based on pre-pregnancy BMI.",
 
   validate(inputs) {
-    return {
-      valid: true,
-      issues: requireNumbers(inputs, ["prePregnancyWeightKg", "heightCm", "currentWeek"]),
-    };
+    return validateInputs(
+      inputs,
+      ["prePregnancyWeightKg", "heightCm", "currentWeek"],
+      [
+        checkRange({ field: "currentWeek", value: inputs.currentWeek as number, min: 0, max: 42, label: "Current week of pregnancy" }),
+      ].filter((x): x is ValidationIssue => x !== null),
+    );
   },
 
   calculate(inputs) {
