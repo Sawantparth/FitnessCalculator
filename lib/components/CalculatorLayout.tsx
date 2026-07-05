@@ -2,9 +2,11 @@
 
 import { useState, useEffect, type ReactNode } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { DisclaimerBanner, type DisclaimerVariant } from "./DisclaimerBanner";
 import { useUnitSystem } from "@/lib/context/UnitContext";
 import { useSavedResults } from "@/lib/context/SavedResultsContext";
+import { getCalcBySlug, getRelatedCalculators } from "./nav-config";
 import dynamic from "next/dynamic";
 
 const ComparisonView = dynamic(() => import("./ComparisonView").then((m) => m.ComparisonView), { ssr: false });
@@ -18,7 +20,6 @@ interface CalculatorLayoutProps {
   result: CalculatorResult | null;
   children?: ReactNode;
   disclaimerVariant?: DisclaimerVariant;
-  /** Sets document.title to this value + site suffix */
   seoTitle?: string;
 }
 
@@ -36,6 +37,10 @@ export function CalculatorLayout({
   const { saveResult, saved } = useSavedResults();
   const [assumptionsOpen, setAssumptionsOpen] = useState(false);
   const [showCompare, setShowCompare] = useState(false);
+  const pathname = usePathname();
+
+  const slug = pathname.split("/").filter(Boolean)[1] ?? "";
+  const related = getRelatedCalculators(slug);
 
   useEffect(() => {
     document.title = seoTitle
@@ -63,30 +68,6 @@ export function CalculatorLayout({
       }}
     >
       <DisclaimerBanner variant={disclaimerVariant} />
-
-      {/* Inline back nav — visible above the form on every calculator page */}
-      <div className="calc-back-nav no-print">
-        <Link href="/" className="calc-back-link" aria-label="Back to all calculators">
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 14 14"
-            fill="none"
-            aria-hidden="true"
-            focusable="false"
-            style={{ flexShrink: 0, marginRight: 6 }}
-          >
-            <path
-              d="M9 2L4 7L9 12"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          All Calculators
-        </Link>
-      </div>
 
       <h1 style={{ fontSize: 28, fontWeight: 400, marginBottom: 8 }}>{title}</h1>
       <p style={{ color: "var(--text-secondary)", marginBottom: 24 }}>{description}</p>
@@ -305,6 +286,75 @@ export function CalculatorLayout({
       </div>
 
       {children}
+
+      {/* Related calculators */}
+      {related.length > 0 && (
+        <section
+          aria-label="Related calculators"
+          className="no-print"
+          style={{
+            marginTop: 32,
+            paddingTop: 24,
+            borderTop: "1px solid var(--border)",
+          }}
+        >
+          <h3 style={{ fontSize: 16, fontWeight: 500, marginTop: 0, marginBottom: 12 }}>
+            You might also need
+          </h3>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 8,
+            }}
+          >
+            {related.map((r) => (
+              <Link
+                key={r.slug}
+                href={`/calculators/${r.slug}`}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 4,
+                  padding: "8px 16px",
+                  border: "1px solid var(--border)",
+                  borderRadius: 8,
+                  background: "var(--bg-secondary)",
+                  color: "var(--text)",
+                  textDecoration: "none",
+                  fontSize: 14,
+                  transition: "border-color 0.15s, background 0.15s",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = "var(--primary)";
+                  e.currentTarget.style.background = "color-mix(in srgb, var(--primary) 6%, var(--bg))";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = "var(--border)";
+                  e.currentTarget.style.background = "var(--bg-secondary)";
+                }}
+              >
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M5 2L9 6L5 10"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                {r.label}
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       <p
         style={{

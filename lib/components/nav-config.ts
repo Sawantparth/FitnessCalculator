@@ -82,3 +82,24 @@ export function getCalcBySlug(slug: string): CalcNavItem | undefined {
 export function getCategoryBySlug(slug: string): NavCategory | undefined {
   return CATEGORIES.find((c) => c.slug === slug);
 }
+
+/**
+ * Return up to `count` related calculators in the same category,
+ * excluding the current one. Falls back to calculators from other
+ * categories if the current category is too small.
+ */
+export function getRelatedCalculators(slug: string, count = 3): CalcNavItem[] {
+  const current = getCalcBySlug(slug);
+  if (!current) return CALCULATORS.slice(0, count);
+
+  const sameCategory = CALCULATORS.filter(
+    (c) => c.category === current.category && c.slug !== slug,
+  );
+
+  if (sameCategory.length >= count) return sameCategory.slice(0, count);
+
+  const others = CALCULATORS.filter(
+    (c) => c.category !== current.category && c.slug !== slug,
+  );
+  return [...sameCategory, ...others].slice(0, count);
+}
