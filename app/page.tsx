@@ -142,14 +142,13 @@ export default function HomePage() {
 
   return (
     <section
-      id="main-content"
       style={{
         background: "var(--hero-bg)",
-        height: "100dvh",
+        height: "100vh",
         overflow: "hidden",
         display: "flex",
         alignItems: "center",
-        padding: "48px 5vw 0",
+        padding: "0 5vw",
         gap: "6vw",
         color: "var(--ink)",
         position: "relative",
@@ -182,8 +181,7 @@ export default function HomePage() {
         style={{
           flex: "1 1 auto",
           position: "relative",
-          maxHeight: "min(480px, 60vh)",
-          overflowY: "auto",
+          height: 480,
           maxWidth: 500,
         }}
       >
