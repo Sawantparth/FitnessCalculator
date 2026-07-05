@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 
 const CATEGORIES = [
@@ -67,7 +67,71 @@ const CATEGORIES = [
   },
 ];
 
+const DESCRIPTIONS: Record<string, string> = {
+  bmi: "Body mass index based on height and weight",
+  "body-fat": "Body fat percentage from measurements",
+  "ideal-weight": "Ideal body weight range",
+  "healthy-weight": "Healthy weight range by height",
+  "lean-body-mass": "Lean body mass estimate",
+  "army-body-fat": "Army-standard body fat formula",
+  "weight-loss": "Personalized weight loss plan",
+  calorie: "Daily calorie needs",
+  bmr: "Basal metabolic rate at rest",
+  tdee: "Total daily energy expenditure",
+  "calories-burned": "Calories burned during activity",
+  "deficit-surplus": "Calorie deficit or surplus plan",
+  macro: "Daily macronutrient targets",
+  protein: "Recommended daily protein",
+  carb: "Daily carbohydrate needs",
+  fat: "Daily fat intake recommendation",
+  iifym: "Flexible dieting macro goals",
+  "pregnancy-tracker": "Weekly pregnancy progress",
+  "due-date": "Estimated due date",
+  ovulation: "Fertility window calculator",
+  conception: "Conception date estimation",
+  "pregnancy-weight-gain": "Pregnancy weight guidelines",
+  "pregnancy-conception": "Conception timing estimator",
+  period: "Menstrual cycle tracker",
+  "one-rep-max": "One rep max strength",
+  "target-heart-rate": "Heart rate training zones",
+  "pace-calculator": "Running pace and speed",
+  "body-type": "Ectomorph, mesomorph, or endomorph",
+  "body-surface-area": "BSA for medical dosing",
+  "gfr-calculator": "Kidney function estimate",
+  "bac-calculator": "Blood alcohol content",
+};
+
 const STEP_COOLDOWN = 650;
+
+function CategoryIcon({ category }: { category: string }) {
+  const props: React.SVGProps<SVGSVGElement> = {
+    width: 20,
+    height: 20,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.5,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    "aria-hidden": true,
+  };
+  switch (category) {
+    case "weight-body":
+      return <svg {...props}><circle cx="12" cy="5" r="3"/><path d="M3 22L5 10h14l2 12"/></svg>;
+    case "calories-energy":
+      return <svg {...props}><path d="M12 3c-1.5 4-5 6-5 10a5 5 0 0010 0c0-4-3.5-6-5-10z"/></svg>;
+    case "nutrition":
+      return <svg {...props}><circle cx="12" cy="12" r="7"/><path d="M12 5v2"/><path d="M9 7c2-1 4-1 6 0"/></svg>;
+    case "pregnancy":
+      return <svg {...props}><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>;
+    case "fitness":
+      return <svg {...props}><polyline points="1 12 5 12 8 8 12 16 15 10 18 14 21 12 23 12"/></svg>;
+    case "health":
+      return <svg {...props}><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg>;
+    default:
+      return <svg {...props}><circle cx="12" cy="12" r="8"/></svg>;
+  }
+}
 
 export default function HomePage() {
   const currentRef = useRef(0);
@@ -76,6 +140,7 @@ export default function HomePage() {
   const panelsRef = useRef<HTMLDivElement[]>([]);
   const dotsRef = useRef<HTMLButtonElement[]>([]);
   const n = CATEGORIES.length;
+  const [searchQuery, setSearchQuery] = useState("");
 
   const setActive = useCallback((idx: number) => {
     panelsRef.current.forEach((p, i) => {
@@ -140,112 +205,160 @@ export default function HomePage() {
     };
   }, [next, prev, setActive]);
 
+  const q = searchQuery.toLowerCase().trim();
+
   return (
-    <section
-      style={{
-        background: "var(--hero-bg)",
-        height: "100vh",
-        overflow: "hidden",
-        display: "flex",
-        alignItems: "center",
-        padding: "0 5vw",
-        gap: "6vw",
-        color: "var(--ink)",
-        position: "relative",
-      }}
-    >
-      {/* Left column */}
-      <div style={{ flex: "0 0 auto", maxWidth: 680, alignSelf: "flex-start", paddingTop: "clamp(40px, 6vh, 72px)" }}>
-        <div style={{           fontSize: 15, letterSpacing: "0.02em", marginBottom: 18  }}>
-          fitness calculator
-        </div>
-
-        <h1
-          style={{
-            fontFamily: "var(--font-michroma), sans-serif",
-            fontWeight: 400,
-            textTransform: "lowercase",
-            fontSize: "clamp(42px, 6.8vw, 100px)",
-            lineHeight: 1.2,
-            letterSpacing: "0.005em",
-            margin: 0,
-          }}
-        >
-          we handle<br />the math<br />for you
-        </h1>
-
-      </div>
-
-      {/* Right column */}
-      <div
+    <>
+      <section
         style={{
-          flex: "1 1 auto",
+          background: "var(--hero-bg)",
+          height: "100vh",
+          overflow: "hidden",
+          display: "flex",
+          alignItems: "center",
+          padding: "0 5vw",
+          gap: "6vw",
+          color: "var(--ink)",
           position: "relative",
-          height: 480,
-          maxWidth: 500,
         }}
       >
-        <div id="categories">
-          {CATEGORIES.map((cat, i) => (
-            <div
-              key={cat.title}
-              ref={(el) => { if (el) panelsRef.current[i] = el; }}
-              className="cat-panel"
-              data-index={i}
-            >
-              <div style={{ fontSize: 16, fontWeight: 500, marginBottom: 22, color: "var(--ink)" }}>
-                {cat.title}
-              </div>
-              <ul className="cat-grid">
-                {cat.items.map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      style={{
-                        color: "inherit",
-                        textDecoration: "underline",
-                        textDecorationColor: "var(--line)",
-                        textUnderlineOffset: 4,
-                      }}
-                      className="cat-link"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+        {/* Left column */}
+        <div style={{ flex: "0 0 auto", maxWidth: 680, alignSelf: "flex-start", paddingTop: "clamp(40px, 6vh, 72px)" }}>
+          <div style={{           fontSize: 15, letterSpacing: "0.02em", marginBottom: 18  }}>
+            fitness calculator
+          </div>
+
+          <h1
+            style={{
+              fontFamily: "var(--font-michroma), sans-serif",
+              fontWeight: 400,
+              textTransform: "lowercase",
+              fontSize: "clamp(42px, 6.8vw, 100px)",
+              lineHeight: 1.2,
+              letterSpacing: "0.005em",
+              margin: 0,
+            }}
+          >
+            we handle<br />the math<br />for you
+          </h1>
+
         </div>
 
-        {/* Progress dots */}
+        {/* Right column */}
         <div
           style={{
-            position: "absolute",
-            right: -28,
-            top: "50%",
-            transform: "translateY(-50%)",
-            display: "flex",
-            flexDirection: "column",
-            gap: 8,
+            flex: "1 1 auto",
+            position: "relative",
+            height: 480,
+            maxWidth: 500,
           }}
-          className="progress-dots"
         >
-          {CATEGORIES.map((_, i) => (
-            <button
-              key={i}
-              ref={(el) => { if (el) dotsRef.current[i] = el; }}
-              type="button"
-              className="dot"
-              data-index={i}
-              onClick={() => goTo(i)}
-              aria-label={`Category ${i + 1}`}
-            />
-          ))}
+          <div id="categories">
+            {CATEGORIES.map((cat, i) => (
+              <div
+                key={cat.title}
+                ref={(el) => { if (el) panelsRef.current[i] = el; }}
+                className="cat-panel"
+                data-index={i}
+              >
+                <div style={{ fontSize: 16, fontWeight: 500, marginBottom: 22, color: "var(--ink)" }}>
+                  {cat.title}
+                </div>
+                <ul className="cat-grid">
+                  {cat.items.map((item) => (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        style={{
+                          color: "inherit",
+                          textDecoration: "underline",
+                          textDecorationColor: "var(--line)",
+                          textUnderlineOffset: 4,
+                        }}
+                        className="cat-link"
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          {/* Progress dots */}
+          <div
+            style={{
+              position: "absolute",
+              right: -28,
+              top: "50%",
+              transform: "translateY(-50%)",
+              display: "flex",
+              flexDirection: "column",
+              gap: 8,
+            }}
+            className="progress-dots"
+          >
+            {CATEGORIES.map((_, i) => (
+              <button
+                key={i}
+                ref={(el) => { if (el) dotsRef.current[i] = el; }}
+                type="button"
+                className="dot"
+                data-index={i}
+                onClick={() => goTo(i)}
+                aria-label={`Category ${i + 1}`}
+              />
+            ))}
+          </div>
         </div>
-      </div>
 
 
-    </section>
+      </section>
+
+      {/* Calculator Directory */}
+      <section className="calc-directory" aria-label="All calculators">
+        <div className="calc-directory-inner">
+          <div className="calc-directory-search no-print">
+            <input
+              type="text"
+              placeholder="Search calculators…"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              aria-label="Filter calculators by name"
+            />
+          </div>
+
+          {CATEGORIES.map((cat) => {
+            const filtered = cat.items.filter(
+              (item) => !q || item.label.toLowerCase().includes(q),
+            );
+            if (filtered.length === 0) return null;
+
+            return (
+              <div key={cat.title} className="calc-category-section">
+                <div className="calc-category-label">{cat.title}</div>
+                <div className="calc-card-grid">
+                  {filtered.map((item) => {
+                    const slug = item.href.replace("/calculators/", "");
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className="calc-card"
+                      >
+                        <CategoryIcon category={cat.title === "Weight Management & Body Composition" ? "weight-body" : cat.title === "Daily Calories & Energy" ? "calories-energy" : cat.title === "Nutrition & Macros" ? "nutrition" : cat.title === "Pregnancy & Fertility" ? "pregnancy" : cat.title === "Fitness Performance" ? "fitness" : "health"} />
+                        <span className="calc-card-name">{item.label}</span>
+                        <span className="calc-card-desc">{DESCRIPTIONS[slug] ?? ""}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+    </>
   );
 }

@@ -430,3 +430,131 @@ a:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
   .site-header-logo { font-size: 15px; }
   .site-header-back { font-size: 12px; padding: 3px 8px; }
 }
+
+/* =====================================================
+   CALCULATOR DIRECTORY (homepage below hero)
+   ===================================================== */
+
+.calc-directory {
+  background: var(--bg);
+  padding: 80px 5vw 120px;
+}
+
+.calc-directory-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.calc-directory-search {
+  margin-bottom: 64px;
+  max-width: 380px;
+}
+
+.calc-directory-search input {
+  width: 100%;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--input-bg);
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.calc-directory-search input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--focus-ring);
+}
+
+.calc-category-section {
+  margin-bottom: 80px;
+}
+
+.calc-category-section:last-child {
+  margin-bottom: 0;
+}
+
+.calc-category-label {
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  margin-bottom: 24px;
+  color: var(--ink-soft);
+  text-transform: lowercase;
+}
+
+.calc-card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.calc-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  backdrop-filter: var(--card-backdrop);
+}
+
+.calc-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.calc-card:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.calc-card svg {
+  color: var(--ink-soft);
+  margin-bottom: 4px;
+}
+
+.calc-card-name {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.calc-card-desc {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+@media (prefers-color-scheme: dark) {
+  .calc-card:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  }
+}
+
+@media (max-width: 1023px) {
+  .calc-card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 639px) {
+  .calc-directory {
+    padding: 48px 5vw 80px;
+  }
+  .calc-category-section {
+    margin-bottom: 56px;
+  }
+  .calc-directory-search {
+    margin-bottom: 40px;
+    max-width: 100%;
+  }
+  .calc-card-grid {
+    grid-template-columns: 1fr;
+  }
+}
