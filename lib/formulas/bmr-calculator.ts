@@ -6,13 +6,14 @@ import {
   katchMcArdle,
   leanBodyMassFromBF,
   bmrAccuracyRecommendation,
-} from "@/lib/core/bmr";
+} from "@/lib/calculators/bmr";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 
 export const bmrCalculatorFormula: ICalculatorFormula = {
   id: "bmr-calculator",
   name: "BMR Calculator",
   description: "Compares basal metabolic rate estimates from Mifflin-St Jeor, Harris-Benedict, and Katch-McArdle.",
+  sourceStandard: "Mifflin et al. (1990); Harris-Benedict (1919, revised Roza & Shizgal 1984); Katch-McArdle (1975)",
 
   validate(inputs) {
     return validateInputs(

@@ -21,4 +21,22 @@ describe("Deficit/Surplus — ICalculatorFormula", () => {
     const r = deficitSurplusFormula.calculate({ tdee: 2500, goal: 2 });
     expect(r.primary.value).toBe(2850);
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = deficitSurplusFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects invalid goal", () => {
+      const v = deficitSurplusFormula.validate({ tdee: 2500, goal: 99 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects implausible TDEE", () => {
+      const v = deficitSurplusFormula.validate({ tdee: NaN, goal: 0 });
+      expect(v.valid).toBe(false);
+    });
+  });
 });

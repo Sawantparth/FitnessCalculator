@@ -20,6 +20,7 @@ export const oneRepMaxFormula: ICalculatorFormula = {
   id: "one-rep-max",
   name: "One Rep Max Calculator",
   description: "Estimates your one-rep maximum from submaximal lifts using Epley, Brzycki, and Lombardi formulas, with training progression suggestions.",
+  sourceStandard: "Epley (1985); Brzycki (1993); Lombardi (1989) — standard 1RM estimation equations",
 
   validate(inputs) {
     return validateInputs(

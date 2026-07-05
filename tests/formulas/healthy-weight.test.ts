@@ -24,4 +24,22 @@ describe("Healthy Weight — ICalculatorFormula", () => {
     const short = healthyWeightFormula.calculate({ heightCm: 160 });
     expect(tall.primary.value).toBeGreaterThan(short.primary.value);
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = healthyWeightFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects negative height", () => {
+      const v = healthyWeightFormula.validate({ heightCm: -175 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects implausible height", () => {
+      const v = healthyWeightFormula.validate({ heightCm: 0.01 });
+      expect(v.valid).toBe(false);
+    });
+  });
 });

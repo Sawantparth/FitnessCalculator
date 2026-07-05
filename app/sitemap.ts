@@ -1,5 +1,7 @@
 import { MetadataRoute } from "next";
 
+export const dynamic = "force-static";
+
 const CALCULATORS = [
   "bmi", "body-fat", "ideal-weight", "healthy-weight", "lean-body-mass",
   "army-body-fat", "weight-loss", "calorie", "bmr", "tdee",

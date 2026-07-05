@@ -29,4 +29,22 @@ describe("Lean Body Mass — ICalculatorFormula", () => {
     expect(r.secondary).toHaveLength(3);
     expect(r.secondary.map((s) => s.label)).toEqual(["Boer", "James", "Hume"]);
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = leanBodyMassFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects negative weight", () => {
+      const v = leanBodyMassFormula.validate({ weightKg: -70, heightCm: 175, gender: 0 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects implausible weight", () => {
+      const v = leanBodyMassFormula.validate({ weightKg: 9999, heightCm: 175, gender: 0 });
+      expect(v.valid).toBe(false);
+    });
+  });
 });

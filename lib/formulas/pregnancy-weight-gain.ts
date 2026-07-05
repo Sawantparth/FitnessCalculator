@@ -46,6 +46,7 @@ export const pregnancyWeightGainFormula: ICalculatorFormula = {
   name: "Pregnancy Weight Gain Calculator",
   description:
     "Recommends weight gain targets per IOM (2009) guidelines based on pre-pregnancy BMI.",
+  sourceStandard: "Institute of Medicine (2009) — Weight Gain During Pregnancy: Reexamining the Guidelines",
 
   validate(inputs) {
     return validateInputs(

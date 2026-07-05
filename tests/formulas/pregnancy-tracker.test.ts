@@ -30,4 +30,22 @@ describe("Pregnancy Tracker — ICalculatorFormula", () => {
     });
     expect(r.secondary.length).toBeGreaterThanOrEqual(5);
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = pregnancyTrackerFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects missing LMP timestamp", () => {
+      const v = pregnancyTrackerFormula.validate({ referenceDate: MAR1.getTime() });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects invalid LMP timestamp", () => {
+      const v = pregnancyTrackerFormula.validate({ lmpTimestamp: "invalid" as any });
+      expect(v.valid).toBe(false);
+    });
+  });
 });

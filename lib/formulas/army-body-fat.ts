@@ -28,6 +28,7 @@ export const armyBodyFatFormula: ICalculatorFormula = {
   name: "Army Body Fat Calculator",
   description:
     "Estimates body fat percentage using the US Army AR 600-9 circumference method.",
+  sourceStandard: "US Army Regulation 600-9 (Department of Defense)",
 
   validate(inputs) {
     const issues = validateInputs(

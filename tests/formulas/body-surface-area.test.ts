@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { mosteller, duBois, bodySurfaceAreaFormula } from "@/lib/formulas/body-surface-area";
+import { mosteller, duBois } from "@/lib/calculators/body-surface-area";
+import { bodySurfaceAreaFormula } from "@/lib/formulas/body-surface-area";
 
 describe("BSA — pure functions", () => {
   it("Mosteller: 170 cm, 70 kg → ~1.82 m²", () => {
@@ -22,5 +23,23 @@ describe("BSA — ICalculatorFormula", () => {
     const labels = r.secondary.map((s) => s.label);
     expect(labels).toContain("Body surface area (Du Bois)");
     expect(labels).toContain("Average of both methods");
+  });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = bodySurfaceAreaFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects negative weight", () => {
+      const v = bodySurfaceAreaFormula.validate({ heightCm: 170, weightKg: -70 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects implausible height", () => {
+      const v = bodySurfaceAreaFormula.validate({ heightCm: 0.01, weightKg: 70 });
+      expect(v.valid).toBe(false);
+    });
   });
 });

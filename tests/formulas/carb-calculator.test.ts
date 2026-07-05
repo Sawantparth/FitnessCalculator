@@ -15,4 +15,22 @@ describe("Carb — ICalculatorFormula", () => {
     expect(r.primary.unit).toContain("g/day");
     expect(r.primary.value).toBeGreaterThan(200);
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = carbCalculatorFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects invalid activity level", () => {
+      const v = carbCalculatorFormula.validate({ calories: 2000, activityLevel: 99 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects implausible calories", () => {
+      const v = carbCalculatorFormula.validate({ calories: NaN, activityLevel: 2 });
+      expect(v.valid).toBe(false);
+    });
+  });
 });

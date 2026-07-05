@@ -24,6 +24,7 @@ export const proteinCalculatorFormula: ICalculatorFormula = {
   name: "Protein Calculator",
   description:
     "Recommends daily protein intake based on weight and activity profile.",
+  sourceStandard: "Academy of Nutrition and Dietetics; ISSN position stand (protein)",
 
   validate(inputs) {
     return validateInputs(

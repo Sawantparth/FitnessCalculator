@@ -4,8 +4,8 @@ import {
   mifflinStJeor,
   ACTIVITY_FACTORS,
   ACTIVITY_LABELS,
-} from "@/lib/core/bmr";
-import { MACRO_PRESETS, macroGrams } from "@/lib/formulas/macro-calculator";
+} from "@/lib/calculators/bmr";
+import { MACRO_PRESETS, macroGrams } from "@/lib/calculators/macro";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 
 const GOAL_MULTIPLIERS: Record<number, { label: string; mult: number }> = {
@@ -25,6 +25,7 @@ export const iifymFormula: ICalculatorFormula = {
   name: "Flexible Dieting (IIFYM)",
   description:
     "Calculates total daily calories and macronutrient targets based on body stats, activity, goal, and macro preset.",
+  sourceStandard: "Mifflin et al. (1990); USDA Dietary Guidelines for Americans (2020–2025)",
 
   validate(inputs) {
     return validateInputs(

@@ -1,29 +1,17 @@
 import { addDays, format } from "date-fns";
 import { requireNumbers, checkEnum, checkRange } from "@/lib/core/validation";
+import { conceptionFromLMP, conceptionFromDueDate, conceptionWindow } from "@/lib/calculators/conception";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 import type { ValidationIssue } from "@/lib/core/validation";
 
-export function conceptionFromLMP(lmp: Date, cycleLength: number): Date {
-  return addDays(lmp, cycleLength - 14);
-}
-
-export function conceptionFromDueDate(dueDate: Date): Date {
-  return addDays(dueDate, -266);
-}
-
-export function conceptionWindow(lmp: Date, cycleLength: number): { start: Date; end: Date } {
-  const midpoint = cycleLength - 14;
-  return {
-    start: addDays(lmp, midpoint - 2),
-    end: addDays(lmp, midpoint + 2),
-  };
-}
+export { conceptionFromLMP, conceptionFromDueDate, conceptionWindow };
 
 export const conceptionFormula: ICalculatorFormula = {
   id: "conception",
   name: "Conception Date Calculator",
   description:
     "Estimates conception date from LMP or due date, with a 5-day window based on cycle length.",
+  sourceStandard: "ACOG pregnancy dating guidelines; Wilcox et al. (NEJM 1995) — timing of fertilization",
 
   validate(inputs) {
     const issues: ValidationIssue[] = [];

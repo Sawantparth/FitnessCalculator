@@ -22,6 +22,7 @@ export const targetHeartRateFormula: ICalculatorFormula = {
   id: "target-heart-rate",
   name: "Target Heart Rate Calculator",
   description: "Calculates target heart rate zones using the Karvonen method and simple max-HR method (220 − age).",
+  sourceStandard: "Karvonen (1957) — heart rate reserve method; Fox (1971) — 220 − age formula; ACSM guidelines",
 
   validate(inputs) {
     return validateInputs(

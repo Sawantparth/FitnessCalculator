@@ -18,4 +18,22 @@ describe("Protein — ICalculatorFormula", () => {
     const r = proteinCalculatorFormula.calculate({ weightKg: 70, profile: 0 });
     expect(r.primary.unit).toBe("g/day");
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = proteinCalculatorFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects negative weight", () => {
+      const v = proteinCalculatorFormula.validate({ weightKg: -70, profile: 0 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects implausible weight", () => {
+      const v = proteinCalculatorFormula.validate({ weightKg: 9999, profile: 0 });
+      expect(v.valid).toBe(false);
+    });
+  });
 });

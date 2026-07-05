@@ -32,6 +32,7 @@ export interface ICalculatorFormula {
   readonly id: string;
   readonly name: string;
   readonly description: string;
+  readonly sourceStandard: string;
 
   /**
    * Validate raw form values before calculation.

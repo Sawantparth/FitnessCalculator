@@ -1,72 +1,39 @@
 "use client";
-
-import { useState } from "react";
-import { CalculatorLayout } from "@/lib/components/CalculatorLayout";
+import { CalculatorPage, unitParse } from "@/lib/components";
 import { calorieCalculatorFormula } from "@/lib/formulas/calorie-calculator";
-import { useUnitSystem } from "@/lib/context/UnitContext";
-import { lbToKg, cmToIn, inToCm } from "@/lib/core/units";
-import type { CalculatorResult } from "@/lib/core/formula-engine";
-
-const METHODS = [
-  { value: 0, label: "Mifflin-St Jeor" },
-  { value: 1, label: "Harris-Benedict" },
-  { value: 2, label: "Katch-McArdle" },
-  { value: 3, label: "Show all methods" },
-];
 
 export default function CaloriePage() {
-  const { system } = useUnitSystem();
-  const [method, setMethod] = useState(0);
-  const [weight, setWeight] = useState("");
-  const [height, setHeight] = useState("");
-  const [age, setAge] = useState("");
-  const [gender, setGender] = useState(0);
-  const [bodyFat, setBodyFat] = useState("");
-  const [result, setResult] = useState<CalculatorResult | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setError(null);
-    const rawW = parseFloat(weight);
-    const rawH = parseFloat(height);
-    const weightKg = system === "imperial" ? lbToKg(rawW) : rawW;
-    const heightCm = system === "imperial" ? inToCm(rawH) : rawH;
-    const inputs: Record<string, number> = {
-      method, weightKg, heightCm, age: parseFloat(age), gender,
-      bodyFatPct: parseFloat(bodyFat) || 0,
-    };
-    const v = calorieCalculatorFormula.validate(inputs);
-    if (!v.valid) { setError(v.issues.map((i) => i.message).join(" ")); return; }
-    setResult(calorieCalculatorFormula.calculate(inputs));
-  }
-
   return (
-    <CalculatorLayout title="Calorie Calculator"
-      description="Estimates daily calorie needs using Mifflin-St Jeor, Harris-Benedict, or Katch-McArdle equations."
-      form={<form onSubmit={handleSubmit}>
-        <select value={method} onChange={(e) => setMethod(Number(e.target.value))} style={inp}>{
-          METHODS.map((m) => <option key={m.value} value={m.value}>{m.label}</option>)
-        }</select>
-        <div style={{ marginTop: 12 }}><label style={lbl}>Weight ({system === "imperial" ? "lb" : "kg"})</label>
-          <input type="number" step="0.1" value={weight} onChange={(e) => setWeight(e.target.value)} style={inp} /></div>
-        <div><label style={lbl}>Height ({system === "imperial" ? "in" : "cm"})</label>
-          <input type="number" step="0.1" value={height} onChange={(e) => setHeight(e.target.value)} style={inp} /></div>
-        <div><label style={lbl}>Age</label>
-          <input type="number" value={age} onChange={(e) => setAge(e.target.value)} style={inp} /></div>
-        <div><label style={lbl}>Sex</label>
-          <select value={gender} onChange={(e) => setGender(Number(e.target.value))} style={inp}>
-            <option value={0}>Male</option><option value={1}>Female</option>
-          </select></div>
-        <div><label style={lbl}>Body fat % (for Katch-McArdle)</label>
-          <input type="number" step="0.1" value={bodyFat} onChange={(e) => setBodyFat(e.target.value)} style={inp} /></div>
-        {error && <p style={{ color: "var(--danger)", fontSize: 14 }}>{error}</p>}
-        <button type="submit" style={btn}>Calculate</button>
-      </form>}
-      result={result} />
+    <CalculatorPage
+      title="Calorie Calculator"
+      description="Estimates daily caloric needs based on BMR, activity level, and fitness goal."
+      formula={calorieCalculatorFormula}
+      fields={[
+        { name: "weightKg", label: "Weight", type: "number", step: 0.1, unit: (s) => s === "imperial" ? "lb" : "kg" },
+        { name: "heightCm", label: "Height", type: "number", step: 0.1, unit: (s) => s === "imperial" ? "in" : "cm" },
+        { name: "age", label: "Age", type: "number", min: 1, max: 120 },
+        { name: "gender", label: "Sex", type: "select", options: [{ value: 0, label: "Male" }, { value: 1, label: "Female" }] },
+        { name: "method", label: "BMR equation", type: "select", options: [
+          { value: 0, label: "Mifflin-St Jeor" }, { value: 1, label: "Harris-Benedict" }, { value: 2, label: "Katch-McArdle" },
+        ]},
+        { name: "activityLevel", label: "Activity level", type: "select", options: [
+          { value: 0, label: "Sedentary" }, { value: 1, label: "Light" },
+          { value: 2, label: "Moderate" }, { value: 3, label: "Active" }, { value: 4, label: "Very active" },
+        ]},
+        { name: "goal", label: "Goal", type: "select", options: [
+          { value: 0, label: "Cut (fat loss)" }, { value: 1, label: "Maintain" }, { value: 2, label: "Bulk (muscle gain)" },
+        ]},
+        { name: "bodyFatPct", label: "Body fat % (for Katch-McArdle)", type: "number", step: 0.1 },
+      ]}
+      parse={(raw, sys) => ({
+        ...unitParse(raw, sys, { weightKg: { toMetric: (v) => v / 2.20462 }, heightCm: { toMetric: (v) => v * 2.54 } }),
+        age: parseFloat(raw.age),
+        gender: Number(raw.gender),
+        method: Number(raw.method),
+        activityLevel: Number(raw.activityLevel),
+        goal: Number(raw.goal),
+        bodyFatPct: parseFloat(raw.bodyFatPct) || 0,
+      })}
+    />
   );
 }
-
-const inp: React.CSSProperties = { width: "100%", padding: "8px 12px", border: "1px solid #ccc", borderRadius: 6, fontSize: 16, marginBottom: 12 };
-const lbl: React.CSSProperties = { display: "block", marginBottom: 4, fontSize: 14 };
-const btn: React.CSSProperties = { padding: "10px 24px", background: "var(--primary)", color: "#fff", border: "none", borderRadius: 6, fontSize: 16, cursor: "pointer" };

@@ -31,4 +31,22 @@ describe("Period — ICalculatorFormula", () => {
     expect(new Date(r.primary.value).getDate()).toBe(29);
     expect(r.secondary.length).toBeGreaterThanOrEqual(4);
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = periodFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects negative cycle length", () => {
+      const v = periodFormula.validate({ lastPeriodTimestamp: LMP.getTime(), cycleLength: -28 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects implausible cycle length", () => {
+      const v = periodFormula.validate({ lastPeriodTimestamp: LMP.getTime(), cycleLength: 99 });
+      expect(v.valid).toBe(false);
+    });
+  });
 });

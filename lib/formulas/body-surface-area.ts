@@ -1,19 +1,13 @@
 import { round } from "@/lib/core/precision";
 import { validateInputs } from "@/lib/core/validation";
+import { mosteller, duBois } from "@/lib/calculators/body-surface-area";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
-
-export function mosteller(heightCm: number, weightKg: number): number {
-  return Math.sqrt((heightCm * weightKg) / 3600);
-}
-
-export function duBois(heightCm: number, weightKg: number): number {
-  return 0.007184 * Math.pow(weightKg, 0.425) * Math.pow(heightCm, 0.725);
-}
 
 export const bodySurfaceAreaFormula: ICalculatorFormula = {
   id: "body-surface-area",
   name: "Body Surface Area Calculator",
   description: "Estimates body surface area (BSA) using Mosteller and Du Bois formulas — commonly used for medication dosing and physiological assessments.",
+  sourceStandard: "Mosteller (1987); Du Bois & Du Bois (1916); standard clinical BSA estimation",
 
   validate(inputs) {
     return validateInputs(inputs, ["heightCm", "weightKg"]);

@@ -46,6 +46,7 @@ export const gfrCalculatorFormula: ICalculatorFormula = {
   id: "gfr-calculator",
   name: "GFR Calculator",
   description: "Estimates glomerular filtration rate (eGFR) using CKD-EPI (2009) and MDRD formulas for kidney function assessment.",
+  sourceStandard: "CKD-EPI (Levey et al., 2009 Annals of Internal Medicine); MDRD (Levey et al., 1999); KDIGO 2012 guidelines",
 
   validate(inputs) {
     return validateInputs(

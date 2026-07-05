@@ -7,7 +7,7 @@ import {
   leanBodyMassFromBF,
   ACTIVITY_FACTORS,
   ACTIVITY_LABELS,
-} from "@/lib/core/bmr";
+} from "@/lib/calculators/bmr";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 
 const METHOD_NAMES: Record<number, string> = {
@@ -21,6 +21,7 @@ export const tdeeCalculatorFormula: ICalculatorFormula = {
   name: "TDEE Calculator",
   description:
     "Estimates total daily energy expenditure based on BMR and activity level.",
+  sourceStandard: "Mifflin et al. (1990); Harris-Benedict (1919/1984); Katch-McArdle (1975); activity factors from WHO/FAO",
 
   validate(inputs) {
     const base = validateInputs(

@@ -30,4 +30,22 @@ describe("Pregnancy Weight Gain — ICalculatorFormula", () => {
     expect(r.primary.unit).toContain("kg");
     expect(r.secondary[0].unit).toContain("Normal");
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = pregnancyWeightGainFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects negative height", () => {
+      const v = pregnancyWeightGainFormula.validate({ prePregnancyWeightKg: 60, heightCm: -165, currentWeek: 20 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects implausible height", () => {
+      const v = pregnancyWeightGainFormula.validate({ prePregnancyWeightKg: 60, heightCm: 0.01, currentWeek: 20 });
+      expect(v.valid).toBe(false);
+    });
+  });
 });

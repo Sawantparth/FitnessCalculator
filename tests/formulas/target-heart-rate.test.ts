@@ -28,4 +28,22 @@ describe("Target Heart Rate — ICalculatorFormula", () => {
     expect(labels.some((l) => l.includes("Karvonen"))).toBe(true);
     expect(labels.some((l) => l.includes("Simple"))).toBe(true);
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = targetHeartRateFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects negative age", () => {
+      const v = targetHeartRateFormula.validate({ age: -30, restingHR: 60 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects implausible resting HR", () => {
+      const v = targetHeartRateFormula.validate({ age: 30, restingHR: 999 });
+      expect(v.valid).toBe(false);
+    });
+  });
 });

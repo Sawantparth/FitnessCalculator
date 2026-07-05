@@ -48,4 +48,22 @@ describe("Ideal Weight — ICalculatorFormula", () => {
     const r = idealWeightFormula.calculate({ heightIn: INCHES_180CM, gender: 0 });
     expect(r.sourceStandard).toMatch(/(Devine|Robinson|Miller|Hamwi)/);
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = idealWeightFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects negative height", () => {
+      const v = idealWeightFormula.validate({ heightIn: -70, gender: 0 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects invalid gender", () => {
+      const v = idealWeightFormula.validate({ heightIn: 70, gender: 99 });
+      expect(v.valid).toBe(false);
+    });
+  });
 });

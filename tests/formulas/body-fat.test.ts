@@ -4,8 +4,8 @@ import {
   bodyFatNavyWomen,
   bodyFatBMIEstimate,
   bodyFatJacksonPollock,
-  bodyFatFormula,
-} from "@/lib/formulas/body-fat";
+} from "@/lib/calculators/body-fat";
+import { bodyFatFormula } from "@/lib/formulas/body-fat";
 
 describe("Body Fat — pure functions", () => {
   it("US Navy men: 178 cm, neck=40, abdomen=82 → ~18.8%", () => {

@@ -39,4 +39,22 @@ describe("One Rep Max — ICalculatorFormula", () => {
     const r = oneRepMaxFormula.calculate({ weightKg: 100, reps: 5, sets: 3, weeksOnProgram: 4 });
     expect(r.interpretation).toContain("deload");
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = oneRepMaxFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects negative reps", () => {
+      const v = oneRepMaxFormula.validate({ weightKg: 100, reps: -5, sets: 3, weeksOnProgram: 3 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects implausible weight", () => {
+      const v = oneRepMaxFormula.validate({ weightKg: 9999, reps: 5, sets: 3, weeksOnProgram: 3 });
+      expect(v.valid).toBe(false);
+    });
+  });
 });

@@ -57,4 +57,22 @@ describe("BMR — ICalculatorFormula primary value", () => {
     const r = bmrCalculatorFormula.calculate({ weightKg: 80, heightCm: 175, age: 30, gender: 0 });
     expect(r.secondary).toHaveLength(2);
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = bmrCalculatorFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects negative weight", () => {
+      const v = bmrCalculatorFormula.validate({ weightKg: -80, heightCm: 175, age: 30, gender: 0 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects implausible weight", () => {
+      const v = bmrCalculatorFormula.validate({ weightKg: 9999, heightCm: 175, age: 30, gender: 0 });
+      expect(v.valid).toBe(false);
+    });
+  });
 });

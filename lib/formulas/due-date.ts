@@ -31,6 +31,7 @@ export const dueDateFormula: ICalculatorFormula = {
   name: "Due Date Calculator",
   description:
     "Estimates the due date based on last menstrual period (LMP) or conception date using Naegele's rule.",
+  sourceStandard: "Naegele's Rule (19th century); ACOG pregnancy dating guidelines",
 
   validate(inputs) {
     const issues: ValidationIssue[] = [];

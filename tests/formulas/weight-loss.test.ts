@@ -4,8 +4,8 @@ import {
   tdee,
   weeklyFatLossKg,
   weeksToGoal,
-  weightLossFormula,
-} from "@/lib/formulas/weight-loss";
+} from "@/lib/calculators/weight-loss";
+import { weightLossFormula } from "@/lib/formulas/weight-loss";
 
 describe("Weight Loss — pure functions", () => {
   // Reference: Mifflin-St Jeor (1990)
@@ -57,5 +57,23 @@ describe("Weight Loss — ICalculatorFormula", () => {
       targetWeightKg: 70, deficitPerDay: 500, activityLevel: 3,
     });
     expect(r.secondary).toHaveLength(5);
+  });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = weightLossFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects negative weight", () => {
+      const v = weightLossFormula.validate({ weightKg: -80, heightCm: 175, age: 30, gender: 0, targetWeightKg: 70, deficitPerDay: 500, activityLevel: 3 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects implausible weight", () => {
+      const v = weightLossFormula.validate({ weightKg: 9999, heightCm: 175, age: 30, gender: 0, targetWeightKg: 70, deficitPerDay: 500, activityLevel: 3 });
+      expect(v.valid).toBe(false);
+    });
   });
 });

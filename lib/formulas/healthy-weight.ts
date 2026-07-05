@@ -15,6 +15,7 @@ export const healthyWeightFormula: ICalculatorFormula = {
   name: "Healthy Weight Range Calculator",
   description:
     "Calculates the healthy weight range corresponding to a BMI of 18.5–24.9.",
+  sourceStandard: "WHO — Global Database on Body Mass Index",
 
   validate(inputs) {
     return validateInputs(inputs, ["heightCm"]);

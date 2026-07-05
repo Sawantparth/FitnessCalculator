@@ -34,4 +34,22 @@ describe("Pace — ICalculatorFormula", () => {
     expect(labels).toContain("Distance");
     expect(labels).toContain("Total time");
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = paceCalculatorFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects negative distance", () => {
+      const v = paceCalculatorFormula.validate({ paceMinutes: 5, paceSeconds: 0, distance: -10, unit: 0 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects implausible pace", () => {
+      const v = paceCalculatorFormula.validate({ paceMinutes: 999, paceSeconds: 0, distance: 10, unit: 0 });
+      expect(v.valid).toBe(false);
+    });
+  });
 });

@@ -20,4 +20,22 @@ describe("Calories Burned — ICalculatorFormula", () => {
     expect(met).toBeTruthy();
     expect(met!.value).toBeGreaterThan(0);
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = caloriesBurnedFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects negative weight", () => {
+      const v = caloriesBurnedFormula.validate({ weightKg: -70, activityIndex: 0, durationMinutes: 30 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects implausible weight", () => {
+      const v = caloriesBurnedFormula.validate({ weightKg: 9999, activityIndex: 0, durationMinutes: 30 });
+      expect(v.valid).toBe(false);
+    });
+  });
 });

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <style>
+      .brand { font-family: 'Georgia', 'Times New Roman', serif; font-size: 72px; font-weight: 700; fill: #000; }
+      .tagline { font-family: Arial, Helvetica, sans-serif; font-size: 26px; fill: #56524B; letter-spacing: 0.02em; }
+    </style>
+  </defs>
+  <rect width="1200" height="630" fill="#E3DDD4"/>
+  <!-- Pulse line icon -->
+  <polyline points="80,315 130,315 155,265 195,375 225,285 275,375 305,315 350,315"
+    fill="none" stroke="#3D5C4E" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Brand wordmark -->
+  <text x="400" y="308" class="brand">Calcosis</text>
+  <text x="400" y="360" class="tagline">Evidence-Based Medical Calculators</text>
+</svg>

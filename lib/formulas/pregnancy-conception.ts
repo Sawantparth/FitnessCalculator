@@ -25,6 +25,7 @@ export const pregnancyConceptionFormula: ICalculatorFormula = {
   name: "Pregnancy Conception Date Estimator",
   description:
     "Estimates conception window using LMP date, cycle length, and optional due date cross-check.",
+  sourceStandard: "ACOG pregnancy dating guidelines; Wilcox et al. (NEJM 1995, 2001)",
 
   validate(inputs) {
     const issues: ValidationIssue[] = [];

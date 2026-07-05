@@ -35,6 +35,7 @@ export const macroCalculatorFormula: ICalculatorFormula = {
   name: "Macro Calculator",
   description:
     "Calculates daily macronutrient targets based on calorie intake and preset macro splits.",
+  sourceStandard: "USDA Dietary Guidelines for Americans (2020–2025); general sports nutrition",
 
   validate(inputs) {
     return validateInputs(

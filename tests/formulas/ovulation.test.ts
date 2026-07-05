@@ -30,4 +30,22 @@ describe("Ovulation — ICalculatorFormula", () => {
     expect(new Date(r.primary.value).getDate()).toBe(15);
     expect(r.secondary).toHaveLength(5);
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = ovulationFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects negative cycle length", () => {
+      const v = ovulationFormula.validate({ lastPeriodTimestamp: LMP.getTime(), cycleLength: -28 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects implausible cycle length", () => {
+      const v = ovulationFormula.validate({ lastPeriodTimestamp: LMP.getTime(), cycleLength: 99 });
+      expect(v.valid).toBe(false);
+    });
+  });
 });

@@ -19,4 +19,22 @@ describe("Body Type — ICalculatorFormula", () => {
     expect(r.primary.unit).toBeTruthy();
     expect(r.secondary.length).toBeGreaterThanOrEqual(6);
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = bodyTypeFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects negative weight", () => {
+      const v = bodyTypeFormula.validate({ heightCm: 175, weightKg: -78, shoulderCm: 50, waistCm: 72, hipCm: 88, gender: 0 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects implausible height", () => {
+      const v = bodyTypeFormula.validate({ heightCm: 9999, weightKg: 78, shoulderCm: 50, waistCm: 72, hipCm: 88, gender: 0 });
+      expect(v.valid).toBe(false);
+    });
+  });
 });

@@ -28,4 +28,22 @@ describe("Conception — ICalculatorFormula", () => {
     const r = conceptionFormula.calculate({ mode: 1, dueDateTimestamp: EDD.getTime() });
     expect(r.primary.unit).toContain("January");
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = conceptionFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects negative cycle length", () => {
+      const v = conceptionFormula.validate({ mode: 0, lmpTimestamp: LMP.getTime(), cycleLength: -28 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects implausible cycle length", () => {
+      const v = conceptionFormula.validate({ mode: 0, lmpTimestamp: LMP.getTime(), cycleLength: 99 });
+      expect(v.valid).toBe(false);
+    });
+  });
 });

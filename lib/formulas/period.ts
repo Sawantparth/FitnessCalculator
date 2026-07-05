@@ -27,6 +27,7 @@ export const periodFormula: ICalculatorFormula = {
   name: "Period Calculator",
   description:
     "Predicts upcoming period dates, ovulation, and fertile windows based on your cycle history.",
+  sourceStandard: "ACOG menstrual cycle guidelines; average cycle length 28 days (range 21–45 days in adults)",
 
   validate(inputs) {
     const issues: ValidationIssue[] = [];

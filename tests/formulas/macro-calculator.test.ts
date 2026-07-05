@@ -26,4 +26,22 @@ describe("Macro — ICalculatorFormula", () => {
     expect(labels).toContain("Carbohydrates");
     expect(labels).toContain("Fat");
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = macroCalculatorFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects invalid preset", () => {
+      const v = macroCalculatorFormula.validate({ calories: 2000, preset: 99 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects non-numeric calories", () => {
+      const v = macroCalculatorFormula.validate({ calories: NaN, preset: 0 });
+      expect(v.valid).toBe(false);
+    });
+  });
 });

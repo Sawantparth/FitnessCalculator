@@ -39,4 +39,22 @@ describe("Due Date — ICalculatorFormula", () => {
     expect(new Date(r.primary.value).getMonth()).toBe(9);
     expect(new Date(r.primary.value).getDate()).toBe(7);
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = dueDateFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects invalid mode", () => {
+      const v = dueDateFormula.validate({ mode: 99, lmpTimestamp: LMP.getTime() });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects missing timestamp for LMP mode", () => {
+      const v = dueDateFormula.validate({ mode: 0 });
+      expect(v.valid).toBe(false);
+    });
+  });
 });

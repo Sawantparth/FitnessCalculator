@@ -21,4 +21,22 @@ describe("Calorie Calculator", () => {
     const r = calorieCalculatorFormula.calculate({ method: 3, weightKg: 80, heightCm: 175, age: 30, gender: 0 });
     expect(r.secondary.length).toBeGreaterThanOrEqual(2);
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = calorieCalculatorFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects negative weight", () => {
+      const v = calorieCalculatorFormula.validate({ method: 0, weightKg: -80, heightCm: 175, age: 30, gender: 0 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects implausible weight", () => {
+      const v = calorieCalculatorFormula.validate({ method: 0, weightKg: 9999, heightCm: 175, age: 30, gender: 0 });
+      expect(v.valid).toBe(false);
+    });
+  });
 });

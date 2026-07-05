@@ -29,6 +29,7 @@ export const leanBodyMassFormula: ICalculatorFormula = {
   name: "Lean Body Mass Calculator",
   description:
     "Estimates lean body mass using Boer, James, and Hume formulas.",
+  sourceStandard: "Boer (1984), James (1976), Hume (1966)",
 
   validate(inputs) {
     return validateInputs(

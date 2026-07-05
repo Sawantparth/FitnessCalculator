@@ -39,4 +39,22 @@ describe("TDEE Calculator", () => {
     expect(labels).toContain("Mifflin-St Jeor BMR");
     expect(labels).toContain("Harris-Benedict BMR");
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = tdeeCalculatorFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects negative weight", () => {
+      const v = tdeeCalculatorFormula.validate({ ...MALE, weightKg: -80, activityLevel: 2 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects implausible weight", () => {
+      const v = tdeeCalculatorFormula.validate({ ...MALE, weightKg: 9999, activityLevel: 2 });
+      expect(v.valid).toBe(false);
+    });
+  });
 });

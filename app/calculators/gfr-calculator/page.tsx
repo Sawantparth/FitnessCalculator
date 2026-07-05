@@ -23,7 +23,10 @@ export default function GFRPage() {
   }
 
   return (
-    <CalculatorLayout title="GFR Calculator" disclaimerVariant="extra-visible"
+    <CalculatorLayout
+      title="GFR Calculator"
+      sourceStandard="CKD-EPI (Levey et al., 2009 Annals of Internal Medicine); MDRD (Levey et al., 1999); KDIGO 2012 guidelines"
+      disclaimerVariant="extra-visible"
       description="Estimates glomerular filtration rate (eGFR) using CKD-EPI and MDRD formulas for kidney function assessment."
       form={<form onSubmit={handleSubmit}>
         <div><label style={lbl}>Serum creatinine (mg/dL)</label>

@@ -25,4 +25,22 @@ describe("Army Body Fat — ICalculatorFormula", () => {
     expect(r.primary.unit).toBe("%");
     expect(r.sourceStandard).toContain("600-9");
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = armyBodyFatFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects negative height", () => {
+      const v = armyBodyFatFormula.validate({ gender: 0, abdomenIn: 33, neckIn: 15.5, heightIn: -70 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects implausible height", () => {
+      const v = armyBodyFatFormula.validate({ gender: 0, abdomenIn: 33, neckIn: 15.5, heightIn: 999 });
+      expect(v.valid).toBe(false);
+    });
+  });
 });

@@ -5,7 +5,7 @@ import {
   harrisBenedict,
   katchMcArdle,
   leanBodyMassFromBF,
-} from "@/lib/core/bmr";
+} from "@/lib/calculators/bmr";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 
 const METHOD_NAMES: Record<number, string> = {
@@ -19,6 +19,7 @@ export const calorieCalculatorFormula: ICalculatorFormula = {
   name: "Calorie Calculator",
   description:
     "Estimates daily calorie needs using Mifflin-St Jeor, Harris-Benedict, or Katch-McArdle equations.",
+  sourceStandard: "Mifflin et al. (1990); Harris-Benedict (1919, rev. 1984); Katch-McArdle (1975)",
 
   validate(inputs) {
     const base = validateInputs(

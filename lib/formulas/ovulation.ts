@@ -20,6 +20,7 @@ export const ovulationFormula: ICalculatorFormula = {
   name: "Ovulation Calculator",
   description:
     "Predicts ovulation date, fertile window, and next period based on cycle history.",
+  sourceStandard: "ACOG ovulation tracking guidelines; Wilcox et al. (NEJM 2001) fertile window study",
 
   validate(inputs) {
     const issues: ValidationIssue[] = [];

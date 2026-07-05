@@ -18,13 +18,14 @@ export function ComparisonView({ onClose }: { onClose: () => void }) {
       aria-label="Saved results comparison"
     >
       <div
+        className="compare-modal-inner"
         style={{
           background: "var(--bg)", borderRadius: 12, maxWidth: 800, width: "100%",
-          maxHeight: "90vh", overflow: "auto", padding: 24,
+          maxHeight: "90dvh", overflow: "auto", padding: 24,
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
+        <div className="compare-modal-header" style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
           <h2 style={{ margin: 0, fontSize: 22 }}>Saved Results ({saved.length})</h2>
           <div style={{ display: "flex", gap: 8 }}>
             {saved.length > 0 && (
@@ -48,7 +49,7 @@ export function ComparisonView({ onClose }: { onClose: () => void }) {
                     Remove
                   </button>
                 </div>
-                <div style={{ fontSize: 24, fontWeight: 700 }}>
+                <div style={{ fontSize: 24, fontWeight: 500 }}>
                   {s.result.primary.value} <span style={{ fontSize: 14, fontWeight: 400, color: "var(--text-muted)" }}>{s.result.primary.unit}</span>
                 </div>
                 <p style={{ fontSize: 13, color: "var(--text-muted)", margin: "4px 0" }}>{s.result.primary.label}</p>

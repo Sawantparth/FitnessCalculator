@@ -1,11 +1,13 @@
 import { round } from "@/lib/core/precision";
 import { validateInputs, checkRange } from "@/lib/core/validation";
+import { calculateBMI } from "@/lib/calculators/bmi";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
 
 export const bmiFormula: ICalculatorFormula = {
   id: "bmi",
   name: "Body Mass Index (BMI)",
   description: "BMI is a measure of body fat based on height and weight.",
+  sourceStandard: "WHO — Global Database on Body Mass Index",
 
   validate(inputs) {
     return validateInputs(
@@ -19,7 +21,7 @@ export const bmiFormula: ICalculatorFormula = {
   },
 
   calculate(inputs) {
-    const bmi = inputs.weightKg / ((inputs.heightCm / 100) ** 2);
+    const bmi = calculateBMI(inputs.weightKg, inputs.heightCm);
 
     let interpretation: string;
     if (bmi < 18.5) {

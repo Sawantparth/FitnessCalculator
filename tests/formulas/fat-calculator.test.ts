@@ -19,4 +19,22 @@ describe("Fat — ICalculatorFormula", () => {
     expect(r.primary.unit).toContain("g/day");
     expect(r.secondary).toHaveLength(3);
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = fatCalculatorFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects negative weight", () => {
+      const v = fatCalculatorFormula.validate({ calories: 2000, weightKg: -70 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects implausible weight", () => {
+      const v = fatCalculatorFormula.validate({ calories: 2000, weightKg: 9999 });
+      expect(v.valid).toBe(false);
+    });
+  });
 });

@@ -22,6 +22,7 @@ export const fatCalculatorFormula: ICalculatorFormula = {
   name: "Fat Intake Calculator",
   description:
     "Recommends daily fat intake based on calorie needs and body weight.",
+  sourceStandard: "USDA Dietary Guidelines for Americans (2020–2025); Institute of Medicine macronutrient ranges",
 
   validate(inputs) {
     return validateInputs(inputs, ["calories", "weightKg"]);

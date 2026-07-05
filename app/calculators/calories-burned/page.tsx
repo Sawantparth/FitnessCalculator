@@ -1,7 +1,6 @@
 "use client";
-
 import { useState } from "react";
-import { CalculatorLayout } from "@/lib/components/CalculatorLayout";
+import { CalculatorLayout, inp, lbl, btn, err } from "@/lib/components";
 import { MET_ACTIVITIES, caloriesBurnedFormula } from "@/lib/formulas/calories-burned";
 import { useUnitSystem } from "@/lib/context/UnitContext";
 import { lbToKg } from "@/lib/core/units";
@@ -32,29 +31,26 @@ export default function CaloriesBurnedPage() {
   }
 
   return (
-    <CalculatorLayout title="Calories Burned Calculator"
-      description="Estimates calories burned during physical activity using MET values from the Compendium of Physical Activities."
+    <CalculatorLayout
+      title="Calories Burned Calculator"
+      sourceStandard="Compendium of Physical Activities (Ainsworth et al., 2011)"
+      description="Estimates calories burned during physical activity using MET values."
       form={<form onSubmit={handleSubmit}>
-        <div><label style={lbl}>Weight ({system === "imperial" ? "lb" : "kg"})</label>
+        <div style={{ marginBottom: 12 }}><label style={lbl}>Weight ({system === "imperial" ? "lb" : "kg"})</label>
           <input type="number" step="0.1" value={weight} onChange={(e) => setWeight(e.target.value)} style={inp} /></div>
-        <div><label style={lbl}>Activity category</label>
-          <select value={category} onChange={(e) => { setCategory(e.target.value); setActivityIdx(MET_ACTIVITIES.findIndex((a) => a.category === e.target.value)); }}
-            style={inp}>
+        <div style={{ marginBottom: 12 }}><label style={lbl}>Activity category</label>
+          <select value={category} onChange={(e) => { setCategory(e.target.value); setActivityIdx(MET_ACTIVITIES.findIndex((a) => a.category === e.target.value)); }} style={inp}>
             {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
           </select></div>
-        <div><label style={lbl}>Activity</label>
+        <div style={{ marginBottom: 12 }}><label style={lbl}>Activity</label>
           <select value={activityIdx} onChange={(e) => setActivityIdx(Number(e.target.value))} style={inp}>
-            {filtered.map((a, i) => <option key={a.id} value={MET_ACTIVITIES.indexOf(a)}>{a.label} ({a.met} MET)</option>)}
+            {filtered.map((a) => <option key={a.id} value={MET_ACTIVITIES.indexOf(a)}>{a.label} ({a.met} MET)</option>)}
           </select></div>
-        <div><label style={lbl}>Duration (minutes)</label>
+        <div style={{ marginBottom: 12 }}><label style={lbl}>Duration (minutes)</label>
           <input type="number" value={duration} onChange={(e) => setDuration(e.target.value)} style={inp} /></div>
-        {error && <p style={{ color: "var(--danger)", fontSize: 14 }}>{error}</p>}
+        {error && <p style={err}>{error}</p>}
         <button type="submit" style={btn}>Calculate Calories Burned</button>
       </form>}
       result={result} />
   );
 }
-
-const inp: React.CSSProperties = { width: "100%", padding: "8px 12px", border: "1px solid #ccc", borderRadius: 6, fontSize: 16, marginBottom: 12 };
-const lbl: React.CSSProperties = { display: "block", marginBottom: 4, fontSize: 14 };
-const btn: React.CSSProperties = { padding: "10px 24px", background: "var(--primary)", color: "#fff", border: "none", borderRadius: 6, fontSize: 16, cursor: "pointer" };

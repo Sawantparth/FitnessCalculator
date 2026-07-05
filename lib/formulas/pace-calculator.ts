@@ -26,6 +26,7 @@ export const paceCalculatorFormula: ICalculatorFormula = {
   id: "pace-calculator",
   name: "Pace Calculator",
   description: "Converts between pace (min per km/mile) and speed (km/h or mph), and estimates total time for a given distance.",
+  sourceStandard: "Standard pace–speed conversion formulas; ACSM metabolic equations",
 
   validate(inputs) {
     return validateInputs(

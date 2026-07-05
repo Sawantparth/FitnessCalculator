@@ -1,6 +1,10 @@
 import { round } from "@/lib/core/precision";
 import { checkEnum, validateInputs, ValidationIssue } from "@/lib/core/validation";
+import { deficitSurplusTargets } from "@/lib/calculators/deficit-surplus";
+import type { GoalTarget } from "@/lib/calculators/deficit-surplus";
 import type { ICalculatorFormula, CalculatorResult } from "@/lib/core/formula-engine";
+
+export { deficitSurplusTargets, GoalTarget };
 
 const GOAL_NAMES: Record<number, string> = {
   0: "Cut (fat loss)",
@@ -8,37 +12,12 @@ const GOAL_NAMES: Record<number, string> = {
   2: "Bulk (muscle gain)",
 };
 
-interface GoalTarget {
-  label: string;
-  adjustment: string;
-  calories: number;
-}
-
-export function deficitSurplusTargets(tdeeKcal: number): GoalTarget[] {
-  return [
-    {
-      label: "Cut (fat loss)",
-      adjustment: "−500 kcal/day deficit",
-      calories: tdeeKcal - 500,
-    },
-    {
-      label: "Maintain",
-      adjustment: "Maintenance level",
-      calories: tdeeKcal,
-    },
-    {
-      label: "Bulk (muscle gain)",
-      adjustment: "+350 kcal/day surplus",
-      calories: tdeeKcal + 350,
-    },
-  ];
-}
-
 export const deficitSurplusFormula: ICalculatorFormula = {
   id: "deficit-surplus",
   name: "Calorie Deficit/Surplus Planner",
   description:
     "Calculates target daily calories for cutting (fat loss), maintenance, or bulking (muscle gain).",
+  sourceStandard: "General sports nutrition guidelines; WHO/FAO energy requirements",
 
   validate(inputs) {
     return validateInputs(

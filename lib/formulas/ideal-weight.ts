@@ -30,6 +30,7 @@ export const idealWeightFormula: ICalculatorFormula = {
   name: "Ideal Body Weight Calculator",
   description:
     "Estimates ideal body weight using Devine, Robinson, Miller, and Hamwi formulas.",
+  sourceStandard: "Devine (1974), Robinson et al. (1983), Miller et al. (1983), Hamwi (1964)",
 
   validate(inputs) {
     return validateInputs(

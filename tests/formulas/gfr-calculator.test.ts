@@ -61,4 +61,22 @@ describe("GFR — ICalculatorFormula", () => {
     const r = gfrCalculatorFormula.calculate({ serumCreatinine: 1.0, age: 50, gender: 1, isBlack: 0 });
     expect(r.primary.value).toBe(66);
   });
+
+  describe("edge cases", () => {
+    it("rejects missing inputs", () => {
+      const v = gfrCalculatorFormula.validate({});
+      expect(v.valid).toBe(false);
+      expect(v.issues.length).toBeGreaterThan(0);
+    });
+
+    it("rejects negative creatinine", () => {
+      const v = gfrCalculatorFormula.validate({ serumCreatinine: -1.0, age: 30, gender: 0, isBlack: 0 });
+      expect(v.valid).toBe(false);
+    });
+
+    it("rejects implausible creatinine", () => {
+      const v = gfrCalculatorFormula.validate({ serumCreatinine: 999, age: 30, gender: 0, isBlack: 0 });
+      expect(v.valid).toBe(false);
+    });
+  });
 });
